@@ -1,0 +1,3 @@
+[submodule "repro/upstream"]
+	path = repro/upstream
+	url = https://github.com/borghig/GaussCBO.git

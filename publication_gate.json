@@ -1,0 +1,9 @@
+{
+  "paper": "IQojX8HugF",
+  "tests_passed": true,
+  "publication_gate_passed": true,
+  "claims_verified": 5,
+  "claims_total": 6,
+  "arxiv": "2601.00632",
+  "scope": "C1, C2, C4, C5, and C6 passed source-faithful local verification; C3 is excluded for the documented contract/source theorem-number mismatch."
+}

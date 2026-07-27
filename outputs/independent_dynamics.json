@@ -1,0 +1,18 @@
+{
+  "c2_cbo_dynamics": {
+    "normalized_weights": [
+      0.642529072379124,
+      0.2612328263306232,
+      0.07868181525224922,
+      0.017556286038003542
+    ],
+    "weights_sum": 1.0000000000000002,
+    "lowest_energy_has_largest_weight": true,
+    "energy_shift_invariant_max_error": 1.609823385706477e-15,
+    "consensus": -1.2843238845572997,
+    "deterministic_drift_moves_toward_consensus": true,
+    "multiplicative_noise_changes_update": true,
+    "pass": true
+  },
+  "scope": "Independent finite algebra check; source audit maps these ingredients to Eq. (7)/Algorithm 1."
+}

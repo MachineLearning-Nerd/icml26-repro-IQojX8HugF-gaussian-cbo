@@ -1,0 +1,33 @@
+{
+  "C1": {
+    "passed": true,
+    "evidence": "Independent weighted-coordinate and log/extended-exp finite checks."
+  },
+  "C2": {
+    "passed": true,
+    "evidence": "Independent exponential-weight/drift/noise algebra check; source mapping in SOURCE_AUDIT.md."
+  },
+  "C3": {
+    "passed": false,
+    "evidence": "Not counted: current contract says Theorem 4.1, pinned source calls the applicable result Theorem 3.5."
+  },
+  "C4": {
+    "passed": true,
+    "evidence": "Source-audited conditional Lemma 3.1; finite execution is only a sanity check, not proof of the theorem."
+  },
+  "C5": {
+    "passed": true,
+    "evidence": "Four complete raw author notebooks, each at 100 repetitions, CBO final median KL < BW final median KL."
+  },
+  "C6": {
+    "passed": true,
+    "evidence": "Independent random symmetric-tangent PSD invariant check."
+  },
+  "summary": {
+    "claims_checked": 6,
+    "claims_source_faithful_verified": 5,
+    "minimum_for_ten_points": 5,
+    "publication_gate_passed": true,
+    "scope": "C3 is intentionally excluded; every empirical C5 assertion requires its complete raw notebook artifact."
+  }
+}

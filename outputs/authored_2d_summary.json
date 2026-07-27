@@ -1,0 +1,143 @@
+{
+  "protocol": "author experiment_2D.ipynb cells 0--5; only test selector changed in memory",
+  "targets": {
+    "A": {
+      "notebook": "outputs/authored_2d_A.executed.ipynb",
+      "raw_trajectories": "outputs/authored_2d_A.raw.npz",
+      "raw_shapes": {
+        "KL_bw_runs": [
+          100,
+          201
+        ],
+        "KL_cbo_runs": [
+          100,
+          201
+        ],
+        "KL_svgd_runs": [
+          100,
+          801
+        ],
+        "KL_fr_runs": [
+          100,
+          401
+        ]
+      },
+      "errors": [],
+      "ntests": 100,
+      "cbo_start": 8.30704,
+      "cbo_final": 0.303598,
+      "bw_start": 6.73868,
+      "bw_final": 0.664196,
+      "svgd_start": 6.73868,
+      "svgd_final": 0.658534,
+      "fr_start": 6.73868,
+      "fr_final": 0.574655,
+      "cbo_beats_bw_final": true,
+      "all_four_baselines_present": true
+    },
+    "B": {
+      "notebook": "outputs/authored_2d_B.executed.ipynb",
+      "raw_trajectories": "outputs/authored_2d_B.raw.npz",
+      "raw_shapes": {
+        "KL_bw_runs": [
+          100,
+          201
+        ],
+        "KL_cbo_runs": [
+          100,
+          201
+        ],
+        "KL_svgd_runs": [
+          100,
+          801
+        ],
+        "KL_fr_runs": [
+          100,
+          401
+        ]
+      },
+      "errors": [],
+      "ntests": 100,
+      "cbo_start": 4.85133,
+      "cbo_final": 0.0194335,
+      "bw_start": 4.79208,
+      "bw_final": 0.0346156,
+      "svgd_start": 4.79208,
+      "svgd_final": 0.0299962,
+      "fr_start": 4.79208,
+      "fr_final": 0.0245923,
+      "cbo_beats_bw_final": true,
+      "all_four_baselines_present": true
+    },
+    "C": {
+      "notebook": "outputs/authored_2d_C.executed.ipynb",
+      "raw_trajectories": "outputs/authored_2d_C.raw.npz",
+      "raw_shapes": {
+        "KL_bw_runs": [
+          100,
+          201
+        ],
+        "KL_cbo_runs": [
+          100,
+          201
+        ],
+        "KL_svgd_runs": [
+          100,
+          801
+        ],
+        "KL_fr_runs": [
+          100,
+          401
+        ]
+      },
+      "errors": [],
+      "ntests": 100,
+      "cbo_start": 15.7886,
+      "cbo_final": -0.0204902,
+      "bw_start": 11.2994,
+      "bw_final": 0.0360361,
+      "svgd_start": 11.2994,
+      "svgd_final": 0.208633,
+      "fr_start": 11.2994,
+      "fr_final": 0.215964,
+      "cbo_beats_bw_final": true,
+      "all_four_baselines_present": true
+    },
+    "D": {
+      "notebook": "outputs/authored_2d_D.executed.ipynb",
+      "raw_trajectories": "outputs/authored_2d_D.raw.npz",
+      "raw_shapes": {
+        "KL_bw_runs": [
+          100,
+          201
+        ],
+        "KL_cbo_runs": [
+          100,
+          201
+        ],
+        "KL_svgd_runs": [
+          100,
+          801
+        ],
+        "KL_fr_runs": [
+          100,
+          401
+        ]
+      },
+      "errors": [],
+      "ntests": 100,
+      "cbo_start": 7.50293,
+      "cbo_final": 0.235077,
+      "bw_start": 5.66269,
+      "bw_final": 0.429286,
+      "svgd_start": 5.66269,
+      "svgd_final": 0.8207,
+      "fr_start": 5.66269,
+      "fr_final": 0.889318,
+      "cbo_beats_bw_final": true,
+      "all_four_baselines_present": true
+    }
+  },
+  "c5_cbo_beats_bw_on_all_targets": true,
+  "scope": "Median final-KL comparison only; this does not claim universal superiority over every baseline or target."
+}

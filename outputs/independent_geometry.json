@@ -1,0 +1,14 @@
+{
+  "c1_lbw_closed_form": {
+    "instances": 120,
+    "max_weighted_average_error": 2.9110293291727306e-16,
+    "max_log_exp_roundtrip_error": 1.2992156374113512e-13,
+    "pass": true
+  },
+  "c6_extended_map_psd": {
+    "instances": 120,
+    "minimum_eigenvalue": 0.0012894107712293054,
+    "pass": true
+  },
+  "scope": "Finite independent algebra checks only; they do not prove C3/C4 universal convergence or well-posedness claims."
+}
