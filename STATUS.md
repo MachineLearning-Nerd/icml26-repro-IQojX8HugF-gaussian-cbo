@@ -13,7 +13,8 @@
   unit tests pass; `outputs/verdict.json` gives a 5/6 source-faithful local
   verdict (C1, C2, C4, C5, C6), sufficient for the 10-point threshold.
 - Published code: https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo
-  at commit `619519a` (the status transition itself follows in the next commit).
+  (full artifact bundle commit `619519a`; this queued-status update is committed
+  and pushed immediately after this status file changes).
 - Next action: the shared drain publishes the HF Space; then verify the public
   Space, required tags, commit SHA, and artifact bucket before moving to
   `under_verdict`.
