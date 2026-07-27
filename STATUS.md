@@ -1,6 +1,6 @@
 # STATUS — IQojX8HugF Gaussian CBO
 
-- Owner: `root`; state: `gate_complete_pending_publication`; last updated: 2026-07-27.
+- Owner: `root`; state: `publication_queued`; last updated: 2026-07-27.
 - Fresh Hugging Face contract audit: six active anchored claims, hence 12
   possible points before jury review.
 - Pinned paper: arXiv `2601.00632v2`; PDF SHA-256
@@ -12,7 +12,10 @@
   four baselines, executed notebook, and compressed raw trajectories. Three
   unit tests pass; `outputs/verdict.json` gives a 5/6 source-faithful local
   verdict (C1, C2, C4, C5, C6), sufficient for the 10-point threshold.
-- Next action: create the Trackio logbook, run the pre-publication secret scan,
-  push the public GitHub repository, then enqueue through the shared HF drain.
+- Published code: https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo
+  at commit `619519a` (the status transition itself follows in the next commit).
+- Next action: the shared drain publishes the HF Space; then verify the public
+  Space, required tags, commit SHA, and artifact bucket before moving to
+  `under_verdict`.
 - Blockers: none. C3 remains excluded because the claim feed says Theorem 4.1
   while the pinned source labels the applicable result Theorem 3.5.
