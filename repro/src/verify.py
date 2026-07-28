@@ -44,9 +44,17 @@ def main() -> None:
     )
     run("repro/src/verify_geometry.py")
     run("repro/src/verify_dynamics.py")
+    claim2_checker_path = ROOT / ".openresearch" / "artifacts" / "claim2" / "generated" / "claim2_checker.json"
+    if (ROOT / "repro" / "src" / "verify_claim2.py").is_file():
+        run("repro/src/verify_claim2.py")
     run("repro/src/summarize_authored_2d.py")
     geometry = json.loads((ROOT / "outputs" / "independent_geometry.json").read_text())
     dynamics = json.loads((ROOT / "outputs" / "independent_dynamics.json").read_text())
+    claim2_checker = (
+        json.loads(claim2_checker_path.read_text())
+        if claim2_checker_path.is_file()
+        else {"verdict": "TOY"}
+    )
     authored = json.loads((ROOT / "outputs" / "authored_2d_summary.json").read_text())
     audit = (ROOT / "docs" / "SOURCE_AUDIT.md").read_text(encoding="utf-8")
     source_hash = "3481d1698570dc32a520820ff1e89f4c1e1ab30fdff93dfcf50e76b654852482"
@@ -57,8 +65,11 @@ def main() -> None:
             "evidence": "Independent weighted-coordinate and log/extended-exp finite checks.",
         },
         "C2": {
-            "passed": dynamics["c2_cbo_dynamics"]["pass"],
-            "evidence": "Independent exponential-weight/drift/noise algebra check; source mapping in SOURCE_AUDIT.md.",
+            "passed": dynamics["c2_cbo_dynamics"]["pass"] and claim2_checker["verdict"] == "VERIFIED",
+            "evidence": (
+                "Multi-step 40-particle trajectories across 24 seeds with raw CSV, "
+                "literal-loop recurrence check, and a noise-dominated negative control."
+            ),
         },
         "C3": {
             "passed": False,
