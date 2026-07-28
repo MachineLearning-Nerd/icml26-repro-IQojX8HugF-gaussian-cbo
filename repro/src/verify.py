@@ -3,12 +3,23 @@
 from __future__ import annotations
 
 import json
+import os
+import platform
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+for variable in (
+    "OMP_NUM_THREADS",
+    "OPENBLAS_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "VECLIB_MAXIMUM_THREADS",
+    "NUMEXPR_NUM_THREADS",
+):
+    os.environ[variable] = "1"
 
 
 def run(script: str) -> None:
@@ -16,6 +27,21 @@ def run(script: str) -> None:
 
 
 def main() -> None:
+    started = time.perf_counter()
+    print(
+        json.dumps(
+            {
+                "compute": {
+                    "backend": "recorded_by_orx",
+                    "estimated_cores": 1,
+                    "thread_limit": 1,
+                    "visible_logical_cpus": os.cpu_count(),
+                    "platform": platform.platform(),
+                    "python": platform.python_version(),
+                }
+            }
+        )
+    )
     run("repro/src/verify_geometry.py")
     run("repro/src/verify_dynamics.py")
     run("repro/src/summarize_authored_2d.py")
@@ -61,6 +87,7 @@ def main() -> None:
     }
     (ROOT / "outputs" / "verdict.json").write_text(json.dumps(verdict, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(verdict, indent=2))
+    print(json.dumps({"runtime_seconds": time.perf_counter() - started}))
     if not verdict["summary"]["publication_gate_passed"]:
         raise SystemExit(1)
 
