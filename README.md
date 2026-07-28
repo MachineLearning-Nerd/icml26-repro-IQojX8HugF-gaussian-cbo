@@ -18,8 +18,9 @@ be `<0`. These source verdicts do not reject plausibly corrected theorems.
 
 The full 2D mixture comparison was preserved at paper scale: targets A–D,
 100 runs each, 20 CBO particles, `T=10`, `dt=.05`, with BW/SVGD/FR
-comparators. No GPU was used; all formal checks ran on one-thread local CPU in
-under four seconds after environment setup.
+comparators. No GPU was used; all formal checks ran on one-thread local CPU.
+The latest verifier took 3.72 seconds, while cold/package release runs took up
+to 15.74 seconds.
 
 - [Illustrated technical report](reports/gaussian-cbo/report.md)
 - [Self-contained marimo tutorial](notebooks/gaussian_cbo_tutorial.py)
@@ -34,6 +35,8 @@ under four seconds after environment setup.
 | [`orx/c2-multi-step-gaussian-cbo-dynamics`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/c2-multi-step-gaussian-cbo-dynamics) | Full recurrence, 24 seeds, literal-loop check, failing control | `uv run python repro/src/verify.py` | C2 VERIFIED; cumulative accepted claims pass | local CPU, 1 thread, 3.43 s |
 | [`orx/c3-c4-exact-source-contracts`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/c3-c4-exact-source-contracts) | Hash-bound theorem/lemma parsing and mutation controls | `uv run python repro/src/verify.py` | C3 and C4 FALSIFIED as stated; all six resolved | local CPU, 1 thread, 3.67 s |
 | [`orx/evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/evaluator-visible-cumulative-release) | Additive Space candidate, report, notebook, and accepted-claim controls | `uv run python repro/src/verify.py` | All six resolved; C1/C5/C6 controls and explicit singular C6 case pass | local CPU, 1 thread, 6.16 s |
+| [`orx/final-release-manifest`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/final-release-manifest) | Freeze allowlist, hashes, and release-gate regression | `uv run python repro/src/verify.py` | All six resolved; release gate passes | local CPU, 1 thread, 15.74 s |
+| [`orx/post-publication-provenance-correction`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/post-publication-provenance-correction) | Reporting-only correction of runtime and command provenance | `uv run python repro/src/verify.py` | Claim evidence unchanged; cumulative regression passes | local CPU, 1 thread, 3.72 s |
 
 The previous live score remains **7/12** until the live judge evaluates a new
 Space revision. A conservative forecast is 9–12/12; 12/12 is the

@@ -123,15 +123,17 @@ single favorable trajectory.
 | C6 | extended map stays PSD | quadratic-form identity; 120-case minimum eigenvalue `0.001289` | VERIFIED |
 
 All formal nodes inherit the exact command
-`uv run python repro/src/verify.py` and the same `uv.lock`. The final
-evaluator-visible cumulative run took 6.165 seconds on local CPU with one
-thread; no GPU was
-used. The baseline and experiments are available on the
+`uv run python repro/src/verify.py` and the same `uv.lock`. The
+evaluator-visible package took 6.165 seconds, and the subsequent frozen
+manifest regression took 15.737 seconds, both on local CPU with one thread; no
+GPU was used. The baseline and experiments are available on the
 [`orx/validated-7-of-12-baseline`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/validated-7-of-12-baseline),
 [`orx/c2-multi-step-gaussian-cbo-dynamics`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/c2-multi-step-gaussian-cbo-dynamics),
 and [`orx/c3-c4-exact-source-contracts`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/c3-c4-exact-source-contracts)
 branches. The additive packaging is on
 [`orx/evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/evaluator-visible-cumulative-release).
+The frozen formal release is on
+[`orx/final-release-manifest`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/final-release-manifest).
 
 The current live score remains 7/12 until a new Hugging Face revision is judged.
 A conservative forecast is 9–12/12; 12/12 is the best-supported possible

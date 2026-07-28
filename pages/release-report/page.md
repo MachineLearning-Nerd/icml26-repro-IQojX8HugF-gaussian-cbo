@@ -24,19 +24,21 @@ reachable and unchanged.
 
 Exact publication action: upload only the manifest-listed text files to the
 existing `DineshAI/IQojX8HugF` Space using the Hugging Face API, then download
-the returned revision and repeat the hash/traversal audit. No second Space will
-be created.
+the returned revision and repeat the hash/traversal audit. The initial
+evidence upload produced `057941df…`; this additive child corrects its runtime
+provenance without changing any claim result. No second Space is created.
 
 Baseline HF Head and Judge Head are both
 `25fc9ebcb7055ac69fc2cad7a31a45c834678099`. The winning scientific branch is
-`orx/c3-c4-exact-source-contracts` at `c3dc10d3…`; the evaluator-visible
-packaging branch is `orx/evaluator-visible-cumulative-release` at `08e70e49…`.
-The stacked tree is baseline → C2 dynamics → C3/C4 source contracts →
-evaluator-visible package → final manifest.
+`orx/c3-c4-exact-source-contracts` at `c3dc10d3…`; the frozen formal release
+branch is `orx/final-release-manifest` at `9835abf6…`. The stacked tree is
+baseline → C2 dynamics → C3/C4 source contracts → evaluator-visible package →
+final manifest → reporting-only provenance correction.
 
 All work used local CPU because every task was estimated at one core and under
-five minutes. The longest completed verifier took 6.165 seconds; local cost was
-`$0`, Hugging Face CPU runtime/cost was `0 s / $0`, and GPU runtime was zero.
+five minutes. The final frozen manifest verifier took 15.737 seconds (the
+preceding evaluator package took 6.165 seconds); local cost was `$0`, Hugging
+Face CPU runtime/cost was `0 s / $0`, and GPU runtime was zero.
 The judged tree has 21 paths; all 21 remain in the candidate, all immutable
 ones are byte-identical, and exact historical copies preserve the two changed
 navigation files.

@@ -63,8 +63,21 @@ orx exp run 3623cc7b-be13-4ea7-8d36-fd2563f6f44f --backend local
 orx exp wait 3623cc7b-be13-4ea7-8d36-fd2563f6f44f --timeout 480
 orx logs 2f287973-817b-47c9-b9d2-98eb22ff77eb
 orx create-experiment 88269cec-b3b8-4872-ab6e-8fcc0f2ec9b3 --title 'Final release manifest' --parent 3623cc7b-be13-4ea7-8d36-fd2563f6f44f
+orx exp run d0d96a1f-ace3-4379-83d8-adcfd2eb87ab --backend local
+orx exp wait d0d96a1f-ace3-4379-83d8-adcfd2eb87ab --timeout 480
+orx logs 1f344847-63ab-4d36-8afd-23d1bc2acc91
+python3 repro/src/audit_space_candidate.py
+git clone --branch orx/final-release-manifest --single-branch git@github.com:MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo.git
+git ls-remote origin refs/heads/orx/final-release-manifest
+HfApi.create_commit(repo_id="DineshAI/IQojX8HugF", repo_type="space", operations=<89 allowlisted text files>, parent_commit="25fc9ebcb7055ac69fc2cad7a31a45c834678099")
+git push origin main
+git ls-remote origin refs/heads/main
+snapshot_download(repo_id="DineshAI/IQojX8HugF", repo_type="space", revision="057941dfbe085e4bcf52e76179023eb2b2fa8e65")
+orx create-experiment 88269cec-b3b8-4872-ab6e-8fcc0f2ec9b3 --title 'Post-publication provenance correction' --parent d0d96a1f-ace3-4379-83d8-adcfd2eb87ab
 ```
 
 All Git edits were committed and pushed before the corresponding formal run.
 No direct training command, GPU command, raw SSH command, or alternate run
-command was used.
+command was used. The final reporting-only node's formal run is discoverable
+from its inherited command and `orx exp status`; it necessarily occurs after
+this ledger is frozen into that node's commit.
