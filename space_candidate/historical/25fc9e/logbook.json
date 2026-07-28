@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "title": "Repro - Variational inference via Gaussian interacting particles in the Bures-Wasserstein geometry",
+  "emoji": "🎯",
+  "space_id": "DineshAI/IQojX8HugF",
+  "paper": null,
+  "tags": [
+    "icml2026-repro",
+    "paper-IQojX8HugF"
+  ],
+  "updated_at": "2026-07-27T13:27:28+00:00",
+  "root": {
+    "slug": "index",
+    "title": "Repro - Variational inference via Gaussian interacting particles in the Bures-Wasserstein geometry",
+    "file": "pages/index.md",
+    "children": [
+      {
+        "slug": "overview",
+        "title": "Overview",
+        "file": "pages/overview/page.md",
+        "children": []
+      },
+      {
+        "slug": "claim-1",
+        "title": "Claim 1",
+        "file": "pages/claim-1/page.md",
+        "children": []
+      },
+      {
+        "slug": "claim-2",
+        "title": "Claim 2",
+        "file": "pages/claim-2/page.md",
+        "children": []
+      },
+      {
+        "slug": "claim-4",
+        "title": "Claim 4",
+        "file": "pages/claim-4/page.md",
+        "children": []
+      },
+      {
+        "slug": "claim-5",
+        "title": "Claim 5",
+        "file": "pages/claim-5/page.md",
+        "children": []
+      },
+      {
+        "slug": "claim-6",
+        "title": "Claim 6",
+        "file": "pages/claim-6/page.md",
+        "children": []
+      },
+      {
+        "slug": "methods",
+        "title": "Methods",
+        "file": "pages/methods/page.md",
+        "children": []
+      },
+      {
+        "slug": "negative-controls",
+        "title": "Negative controls",
+        "file": "pages/negative-controls/page.md",
+        "children": []
+      },
+      {
+        "slug": "conclusion",
+        "title": "Conclusion",
+        "file": "pages/conclusion/page.md",
+        "children": []
+      }
+    ]
+  },
+  "agent_view_tokens": 1380,
+  "revision": "1785158848900693226"
+}

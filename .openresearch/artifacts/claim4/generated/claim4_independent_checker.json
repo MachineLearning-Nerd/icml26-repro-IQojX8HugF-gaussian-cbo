@@ -1,0 +1,15 @@
+{
+  "verdict": "VERIFIED_CHECKER",
+  "checks": {
+    "source_hash_matches": true,
+    "c3_is_falsified": true,
+    "c3_actual_number_is_3_5": true,
+    "c3_finite_alpha_bound_detected": true,
+    "c3_exact_minimizer_statement_absent": true,
+    "c4_is_falsified": true,
+    "c4_actual_number_is_3_1": true,
+    "c4_impossible_moment_detected": true,
+    "mutations_rejected": true
+  },
+  "source_sha256": "6b35ec4859cc23bac62bec4a20c6a9d59e1c360a9cf44a1ba1b68b96042b09b1"
+}

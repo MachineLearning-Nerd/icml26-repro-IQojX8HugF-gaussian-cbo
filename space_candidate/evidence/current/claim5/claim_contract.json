@@ -1,0 +1,7 @@
+{
+  "claim_id": "C5",
+  "exact_judge_claim": "On 2D mixture targets A-D, Gaussian CBO outperforms BW gradient flow on the reported non-convex problems.",
+  "source_anchors": ["Section 5.1", "Table 1", "Figure 4"],
+  "acceptance": "For every target A-D, complete finite raw arrays have 100 runs and CBO final median KL is below BW final median KL.",
+  "verdict_values": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

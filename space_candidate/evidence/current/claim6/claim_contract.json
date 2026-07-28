@@ -1,0 +1,7 @@
+{
+  "claim_id": "C6",
+  "exact_judge_claim": "The extended exponential map on all symmetric tangents preserves PSD at no added projection cost and enables singular Gaussians.",
+  "source_anchor": "Appendix B.2 / extended exponential display",
+  "acceptance": "Quadratic-form identity, 120 random PSD checks, and an explicit rank-deficient tangent construction all pass.",
+  "verdict_values": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

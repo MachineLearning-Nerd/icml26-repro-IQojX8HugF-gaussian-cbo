@@ -1,0 +1,14 @@
+{
+  "claim_id": "C4",
+  "exact_judge_claim": "Lemma 4.1 establishes well-posedness of the particle dynamics under local Lipschitz continuity of the energy functional E (Lemma 4.1, Eq. 4.3).",
+  "source_version": "arXiv:2601.00632v2",
+  "source_anchor": "l:well",
+  "quantifier_audit": {
+    "actual_number_in_official_pdf": "Lemma 3.1",
+    "printed_initial_condition": "E|m_0^i|^2, E||T_0^i||^2_{Sigma0} < 0",
+    "energy_condition": "a displayed growth-weighted LOT-Lipschitz inequality for every pair of P2 measures",
+    "conclusion": "system (7) admits a unique strong solution"
+  },
+  "acceptance": "FALSIFIED iff source-bound parsing finds the strictly-negative squared-moment premise and a machine-checked order argument confirms that no initial distribution can satisfy it.",
+  "verdict_values": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

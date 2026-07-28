@@ -1,0 +1,7 @@
+{
+  "claim_id": "C1",
+  "exact_judge_claim": "The LBW parametrization yields a closed-form weighted Gaussian barycenter without the standard BW fixed-point iteration.",
+  "source_anchors": ["Eq. 3.3", "Appendix B.2"],
+  "acceptance": "120 SPD cases; weighted-coordinate and log/extended-exp errors each below 1e-10.",
+  "verdict_values": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}
