@@ -70,7 +70,7 @@ def main() -> None:
         },
         "C5": {
             "passed": authored["c5_cbo_beats_bw_on_all_targets"],
-            "evidence": "Four complete raw author notebooks, each at 100 repetitions, CBO final median KL < BW final median KL.",
+            "evidence": "Four committed raw trajectory bundles, each at 100 repetitions, CBO final median KL < BW final median KL.",
         },
         "C6": {
             "passed": geometry["c6_extended_map_psd"]["pass"],
