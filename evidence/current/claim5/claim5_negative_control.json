@@ -1,0 +1,4 @@
+{
+  "mutation": "remove target D from an otherwise valid summary",
+  "required_target_gate_rejected": true
+}

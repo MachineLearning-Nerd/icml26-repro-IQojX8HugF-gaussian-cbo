@@ -1,0 +1,24 @@
+{
+  "verdict": "VERIFIED",
+  "checks": {
+    "120_instances": true,
+    "all_random_covariances_psd": true,
+    "explicit_singular_construction_is_psd": true,
+    "explicit_singular_construction_has_zero_eigenvalue": true,
+    "construction_uses_same_two_matrix_products": true
+  },
+  "singular_covariance": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0
+    ]
+  ],
+  "singular_eigenvalues": [
+    0.0,
+    1.0
+  ]
+}

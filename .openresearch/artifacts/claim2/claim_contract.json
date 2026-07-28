@@ -1,0 +1,36 @@
+{
+  "claim_id": "C2",
+  "exact_judge_claim": "The proposed Gaussian consensus-based optimization (CBO) particle system drives N Gaussian particles toward consensus via stochastic exploration plus deterministic drift toward exponentially-weighted barycenters omega(mu) = exp(-alpha*E(mu)) (Eq. 4.2, Section 4).",
+  "source_version": "arXiv:2601.00632v2",
+  "source_anchors": [
+    "Section 4, eq:consensus",
+    "Section 4, eq:cboLBW",
+    "Section 5, eq:cbonum",
+    "Algorithm 1 / alg:gcbo"
+  ],
+  "test_domain": {
+    "dimension": 2,
+    "particles": 40,
+    "seeds": "260100..260123",
+    "steps": 400,
+    "dt": 0.01,
+    "lambda": 1.0,
+    "sigma": 0.7,
+    "alpha": 20.0,
+    "energy": "smooth quadratic in the five orthonormal LBW coordinates"
+  },
+  "acceptance": {
+    "median_final_to_initial_particle_variance": "< 0.05",
+    "fraction_of_seeds_below_ratio_0_05": ">= 0.90",
+    "median_second_half_log_variance_slope": "< -0.5",
+    "drift_rms": "> 0 before convergence",
+    "noise_rms": "> 0 before convergence",
+    "literal_loop_max_error": "< 1e-12",
+    "negative_control": "an update-omitted corrupted implementation must keep variance ratio exactly 1, have zero slope, and fail the main consensus threshold"
+  },
+  "verdict_values": [
+    "VERIFIED",
+    "FALSIFIED",
+    "BLOCKED"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "claim": "Lemma 4.1 establishes well-posedness of the particle dynamics under local Lipschitz continuity of the energy functional.",
+  "verdict": "FALSIFIED",
+  "basis": "The official v2 source numbers the result Lemma 3.1 and prints the impossible assumption E|m0|^2,E||T0||^2<0. Because squared norms and their expectations are nonnegative, the lemma is vacuous as printed; it cannot establish the unqualified claimed result without correcting the source.",
+  "checks": {
+    "official_tex_numbers_result_lemma_3_1": true,
+    "printed_initial_moment_condition_is_strictly_negative": true,
+    "squared_norms_are_pointwise_nonnegative": true,
+    "expectations_of_nonnegative_random_variables_are_nonnegative": true,
+    "therefore_no_initial_distribution_satisfies_printed_condition": true,
+    "displayed_energy_condition_is_global_for_every_pair": true
+  },
+  "actual_number": "Lemma 3.1",
+  "source_sha256": "6b35ec4859cc23bac62bec4a20c6a9d59e1c360a9cf44a1ba1b68b96042b09b1",
+  "scope": "Falsification of the exact printed attribution. Replacing <0 by <infinity is a plausible typo repair, but that repaired lemma is a different contract."
+}

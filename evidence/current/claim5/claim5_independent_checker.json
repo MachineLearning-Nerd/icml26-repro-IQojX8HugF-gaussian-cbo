@@ -1,0 +1,9 @@
+{
+  "verdict": "VERIFIED",
+  "checks": {
+    "exact_targets_A_to_D": true,
+    "100_runs_each": true,
+    "all_raw_shapes_present": true,
+    "cbo_final_median_below_bw_all_targets": true
+  }
+}

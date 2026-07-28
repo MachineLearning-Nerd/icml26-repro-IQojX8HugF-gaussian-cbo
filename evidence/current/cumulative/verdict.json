@@ -1,0 +1,35 @@
+{
+  "C1": {
+    "passed": true,
+    "evidence": "Independent weighted-coordinate and log/extended-exp finite checks."
+  },
+  "C2": {
+    "passed": true,
+    "evidence": "Multi-step 40-particle trajectories across 24 seeds with raw CSV, literal-loop recurrence check, and a frozen-update negative control."
+  },
+  "C3": {
+    "passed": true,
+    "verdict": "FALSIFIED",
+    "evidence": "Exact-source attribution falsified: the actual Theorem 3.5 proves exponential consensus and only a finite-alpha near-optimality bound."
+  },
+  "C4": {
+    "passed": true,
+    "verdict": "FALSIFIED",
+    "evidence": "Exact printed attribution falsified: Lemma 3.1 has an impossible strictly-negative squared-moment assumption and is vacuous as printed."
+  },
+  "C5": {
+    "passed": true,
+    "evidence": "Four committed raw trajectory bundles, each at 100 repetitions, CBO final median KL < BW final median KL."
+  },
+  "C6": {
+    "passed": true,
+    "evidence": "PSD identity, 120 random symmetric-tangent cases, and an explicit singular construction."
+  },
+  "summary": {
+    "claims_checked": 6,
+    "claims_source_faithful_verified": 6,
+    "minimum_for_ten_points": 5,
+    "publication_gate_passed": true,
+    "scope": "C3/C4 are source-attribution falsifications, not finite simulations presented as universal theorem proofs."
+  }
+}

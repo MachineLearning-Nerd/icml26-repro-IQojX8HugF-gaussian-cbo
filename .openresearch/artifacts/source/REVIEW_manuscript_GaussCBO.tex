@@ -1,0 +1,1619 @@
+%%%%%%%% ICML 2026 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % for professional tables
+
+
+
+% hyperref makes hyperlinks in the resulting PDF.
+% If your build breaks (sometimes temporarily if a hyperlink spans a page)
+% please comment out the following usepackage line and replace
+% \usepackage{icml2026} with \usepackage[nohyperref]{icml2026} above.
+\usepackage{hyperref}
+
+
+% Attempt to make hyperref and algorithmic work together better:
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Use the following line for the initial blind version submitted for review:
+%\usepackage{icml2026}
+
+% For preprint, use
+ \usepackage[preprint]{icml2026}
+
+% If accepted, instead use the following line for the camera-ready submission:
+% \usepackage[accepted]{icml2026}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+
+\usepackage[shortlabels]{enumitem}
+\usepackage{bm}
+
+
+% if you use cleveref..
+\usepackage[capitalize,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\y}{ {\bf y}}
+\newcommand{\z}{ {\bf z}}
+\newcommand{\Rd}{ {\mathbb{R}^d}}
+\newcommand{\Rm}{ {\mathbb{R}^m}}
+\newcommand{\R}{ \mathbb{R}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\WW}{\mathcal{W}}
+\newcommand{\err}{\textup{Err}}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\var}{\textup{Var}}
+\renewcommand{\d}{\mathrm{d}}
+\renewcommand{\bar}{\overline}
+\newcommand{\m}{\textup{m}}
+\newcommand{\supp}{\textup{supp}}
+\newcommand{\law}{\textup{Law}}
+\newcommand{\dist}{\textup{dist}}
+\newcommand{\refup}{\textup{ref}}
+\newcommand{\tot}{\textup{tot}}
+\newcommand{\argmin}{\textup{argmin}}
+\newcommand{\sym}{\textup{Sym}_d}
+\newcommand{\pd}{\textup{Sym}^{++}_d}
+\newcommand{\psd}{\textup{Sym}^{+}_d}
+\newcommand{\Id}{\textup{Id}}
+\newcommand{\BW}{\textsf{BW}}
+\newcommand{\LBW}{\textsf{LBW}}
+\newcommand{\tr}{\textup{tr}}
+\newcommand{\W}{\mathbb{W}}
+\newcommand{\KL}{\textup{KL}}
+\newcommand{\LW}{\textup{L}\mathbb{W}}
+\newcommand{\targ}{\textup{targ}}
+\newcommand{\clip}{\textup{clip}}
+\newcommand{\swarm}{S}
+
+%\newcommand{\rev}[1]{{\color{blue}#1}}
+\newcommand{\rev}{}
+
+
+
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+
+% The \icmltitle you define below is probably too long as a header.
+% Therefore, a short form for the running title is supplied here:
+\icmltitlerunning{Variational inference via Gaussian interacting particles in the Bures--Wasserstein geometry}
+
+\begin{document}
+
+\twocolumn[
+  \icmltitle{Variational inference via Gaussian interacting particles \\ in the Bures--Wasserstein geometry}
+
+  % It is OKAY to include author information, even for blind submissions: the
+  % style file will automatically remove it for you unless you've provided
+  % the [accepted] option to the icml2026 package.
+
+  % List of affiliations: The first argument should be a (short) identifier you
+  % will use later to specify author affiliations Academic affiliations
+  % should list Department, University, City, Region, Country Industry
+  % affiliations should list Company, City, Region, Country
+
+  % You can specify symbols, otherwise they are numbered in order. Ideally, you
+  % should not use this facility. Affiliations will be numbered in order of
+  % appearance and this is the preferred way.
+  \icmlsetsymbol{equal}{*}
+
+  \begin{icmlauthorlist}
+    \icmlauthor{Giacomo Borghi}{hw}
+    \icmlauthor{Jos\'{e} A. Carrillo}{oxford}
+  \end{icmlauthorlist}
+
+  \icmlaffiliation{hw}{Maxwell Institute for Mathematical Sciences and Department of Mathematics, School of Mathematical and Computer Sciences, Heriot-Watt University, Edinburgh, UK}
+    \icmlaffiliation{oxford}{Mathematical Institute, University of Oxford, Oxford, UK}
+ 
+  \icmlcorrespondingauthor{Giacomo Borghi}{g.borghi@hw.ac.uk}
+  \icmlcorrespondingauthor{Jos\'{e} A. Carrillo}{jose.carrillo@maths.ox.ac.uk}
+
+  % You may provide any keywords that you find helpful for describing your
+  % paper; these are used to populate the "keywords" metadata in the PDF but
+  % will not be shown in the document
+  \icmlkeywords{Gaussian variational inference, Consensus-based optimization, Bures–Wasserstein space, Linear optimal transport, Interacting particle systems}
+
+  \vskip 0.3in
+]
+
+% this must go after the closing bracket ] following \twocolumn[ ...
+
+% This command actually creates the footnote in the first column listing the
+% affiliations and the copyright notice. The command takes one argument, which
+% is text to display at the start of the footnote. The \icmlEqualContribution
+% command is standard text for equal contribution. Remove it (just {}) if you
+% do not need this facility.
+
+% Use ONE of the following lines. DO NOT remove the command.
+% If you have no special notice, KEEP empty braces:
+\printAffiliationsAndNotice{}  % no special notice (required even if empty)
+% Or, if applicable, use the standard equal contribution text:
+% \printAffiliationsAndNotice{\icmlEqualContribution}
+
+%%%%%%%%%%%
+%TLDR sentence:
+%We introduce a gradient-free method that optimizes over Gaussian distributions using interacting Gaussian particles, showing robust convergence even for non-convex problems.
+
+%%%%%%%%%
+%Lay Summary
+%Many scientific and statistical problems require estimating an unknown probability distribution, for example the range of plausible explanations for observed data. A common shortcut is to approximate this distribution by a Gaussian, or bell-shaped, distribution, because Gaussians are easy to store and compute with. However, choosing the best Gaussian approximation can be difficult when the target distribution has several peaks or an irregular shape.
+
+%We propose a new method that searches over Gaussian distributions without needing gradient information. The method uses a group of Gaussian “particles” that explore different possible approximations and gradually move toward a shared consensus, giving more influence to particles that better match the target distribution. To make this efficient, we introduce a new way of representing Gaussian distributions that preserves useful geometric structure while simplifying the computations.
+
+%Our theoretical results show that the resulting particle system is well-defined and explain its convergence behavior through a large-population approximation. In experiments on variational inference tasks, the method is more robust than standard gradient-based approaches in low-dimensional non-convex settings.
+
+
+\begin{abstract}
+Motivated by variational inference methods, we propose a zeroth-order algorithm for solving optimization problems in the space of Gaussian probability measures. The algorithm is based on an interacting system of Gaussian particles that stochastically explore the search space and self-organize around global minima via a consensus-based optimization (CBO) mechanism. 
+Its construction relies on the Linearized Bures–Wasserstein (LBW) space, a novel parametrization of Gaussian measures we introduce for efficient computations. 
+We establish well-posedness and study the convergence properties of the particle dynamics via a mean-field approximation. Numerical experiments on variational inference tasks demonstrate the algorithm’s robustness and superior performance with respect to \rev{deterministic} gradient-based method in presence of \rev{low-dimensional} non log-concave targets.
+\end{abstract}
+
+
+\section{Introduction}
+
+\paragraph{Problem.} Given a target probability measure $\mu^\targ \in \mathcal{P}(\Rd)$ a widespread problem in statistics and computational sciences consists of finding
+\begin{equation} \label{eq:pb}
+\mu^\star \in \underset{\mu\in \Pi}{\argmin} \, \E(\mu)
+\end{equation}
+where $\Pi$ is a family of parametrized probability measures, and $\E(\cdot) = \mathcal{D}(\cdot\,|\,\mu^\targ)$ is a functional which quantifies the discrepancy from a target. A classical example is the Bayesian inference problem where $\mu^\targ(\d x)\propto \exp(-V(x))\d x$ for some $V:\Rd \to \R$, and the discrepancy measure corresponds to the Kullback--Leibler divergence, $\E(\cdot) = \KL(\cdot\,|\,\mu^\targ)$ \cite{blei2017review}. The settings we considered though, are the more general one of Variational Inference (VI), where $\E$ can be given, for instance, by the  Maximum Mean Discrepancy, $f$-divergencies, $\chi^2$-divergence, R{\'e}nyi’s $\alpha$-divergence  \cite{blei2017review,knoblauch2022}.  
+
+In this work we consider the 
+Gaussian VI problems \cite{diao2023forward,katsevich2024approximation} where $\Pi\subset\mathcal{P}(\Rd)$ is the set of $d$-dimensional normal distributions
+\[
+\Pi = \mathcal{N}^d := \left\{\mu = \mathcal{N}(m,\Sigma) \,\mid \,m\in \Rd,\, \Sigma\in \psd \right\}
+  \]
+ with $\psd$ being the space of symmetric positive semi-definite matrices. This approach offers a computationally efficient alternative to traditional Bayesian inference by approximating posterior distributions with tractable Gaussian families, enabling faster approximate inference compared to Markov Chain Monte Carlo methods \cite{spokoiny2025gaussian,katsevich2024approximation}.
+
+\paragraph{State of the art.}
+Different works, see, for  instance,  \cite{alvarez2022optimizing, lambert2022variational,diao2023forward},  propose first-order algorithms  as suitable discretization of gradient flows  in the space probability measures \cite{ags2008} equipped with the $L^2$-Wasserstein distance.
+When restricting to the space of non-degenerate Gaussians, the distance is known as the Bures--Wasserstein (BW) distance and can be derived from a suitable Riemannian structure \cite{bathia2019,Malago2018}. First-order algorithms with respect  to the Hellinger--Kantorovich  metric have been proposed in \cite{tse2025hk}. 
+
+
+\begin{figure*}[t]
+  \vskip 0.2in
+  \centering
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_00}
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_02}
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_04}
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_06} \\
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_08}
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_10}
+  \includegraphics[width=0.245\textwidth]{fig_particles_run_12}
+  \includegraphics[width=0.245\textwidth]{fig_particles_run}
+
+  \caption{
+    Evolution of $N = 10$ Gaussian particles for minimization of
+    $\mathrm{KL}$ divergence from a bi-modal target measure
+    (shown by contour lines).
+    Particles evolve according to the CBO-type dynamics proposed in this
+    paper for problems of the form~\eqref{eq:pb}
+    (see Section~\ref{sec:cbo}).
+    The final snapshot compares the solution computed by the proposed CBO
+    method with the BW Gradient Flow solution~\cite{lambert2022variational};
+    the corresponding KL values are also reported. %Supplementary videos illustrating the evolution are available here \cite{borghi2025figshare}. %to add afterwards in order not to break anonymity 
+  }
+  \label{fig:illu}
+\end{figure*}
+
+Such optimization dynamics can be conveniently written as a system of ODEs for the mean $m\in \Rd$ and the covariance matrix $\Sigma\in \psd$  and have shown superior performance with respect to other Gaussian Bayesian inference methods such as the Laplace method \cite{laplace1986}, see \cite{lambert2022variational}.  
+As in Euclidean optimization, though,  convexity of objective functional plays a central role in the convergence of gradient-based methods, and the optimizing dynamics may get stuck in local minima, if present.
+
+
+
+\paragraph{Our contributions using interacting particles.}  We propose a novel global, gradient-free optimization algorithm for  \eqref{eq:pb} based on a system of Gaussian particles. Particles follows a Consensus-Based Optimization  (CBO) dynamics which exploits the Bures--Wasserstein geometry of $\mathcal{N}^d$. 
+
+\paragraph{Starting point.} In the Euclidean CBO algorithm \cite{pinnau2017consensus}, each particle stochastically moves towards a consensus point consisting of a 
+weighted average of the entire ensemble, that is considered a proxy for the minimizer. In  \cite{borghi2025wass} an algorithm where each particle is a probability measure was proposed by substituting averages with Wasserstein barycenters \cite{cariler2011bary}. 
+
+In Gaussian settings, every particle is a Gaussian measure
+\[
+\mu_t^i = \mathcal{N}(m_t^i, \Sigma_t^i), \qquad \textup{for}\;\; i \in [N]\,,\;\; t\geq 0
+\]
+and, since the $L^2$-Wasserstein barycenter is still a Gaussian, the consensus dynamics of \cite{borghi2025wass}  reads
+\begin{equation} \label{eq:bwcbo}
+\begin{cases}
+(\overline{m}_t, \overline{\Sigma}_t) := \textup{Barycenter}^{\omega}\left\{(m_t^i, \Sigma_t^i)\,\mid i \in [N]  \right \}  \\
+\dot{m}_t^i = \overline{m}_t - m_t^i  \qquad i \in [N] \\
+\dot{\Sigma}_t^i = \overline{\Sigma}_t(\Sigma_t^i \overline{\Sigma}_t)^{-\frac12} - I\, \qquad i \in [N]\,.
+\end{cases}
+\end{equation}
+
+Above, the barycenter serves as the consensus point and is computed according to the Gibbs weight function
+\begin{equation} \label{eq:weights}
+\omega(\mu) := \exp\left(-\alpha \E(\mu) \right)\qquad \alpha \gg 1\,,
+\end{equation}
+and the tangent vector $\overline{\Sigma}_t(\Sigma_t^i \overline{\Sigma}_t)^{-\frac12} - I$ corresponds the optimal transport maps from $\Sigma_t^i$ to $\overline{\Sigma}_t$ (see \cref{sec:2}). 
+
+Consensus dynamics in Wasserstein spaces have been also formulated in \cite{doucet2014,doucet2021,bullo2023} with aim of deriving a distributed algorithm for the computation of Wasserstein barycenters, and not in the context of optimization.
+
+\paragraph{Contributions.} While coherent with the BW geometry, the particle system \eqref{eq:bwcbo} lacks stochasticity and is computationally expensive, making it unsuitable for solving the optimization problem \eqref{eq:pb}. To address this, 
+\begin{enumerate}[label=\roman*)]
+\item We propose the Linearized Bures--Wasserstein space (LBW), a novel parametrization of the space of Gaussian measures that enables efficient computation and the use of stochastic analysis, while retaining key features of the BW geometry. 
+
+\item We design an efficient CBO-type dynamics in the LBW space to solve \eqref{eq:pb} (see Figure \ref{fig:illu} for an intuition). The particle method is gradient-free and only requires evaluations of the objective functional $\E$ (up to a  constant). We study the well-posedness of the system and its convergence towards minimizers via a mean-field approximation of the dynamics;
+
+\item We validate the algorithm on various Gaussian VI test problems and investigate the role of different parameters. Comparisons with gradient-based methods demonstrate the superior performance of Gaussian CBO in non-convex \rev{low-dimensional} settings.
+\end{enumerate}
+
+
+
+\section{The Linearized Bures--Wasserstein Geometry}
+
+
+\subsection{The Bures--Wasserstein manifold}
+
+The space of non-degenerate Gaussian measures over $\Rd$ equipped with the BW Riemmanian metric corresponds to the $L^2$-Wasserstein distance \citep{takatsu2011,Malago2018,bathia2019}. 
+
+Let $\pd\subset \sym$ denote the subset of positive definite symmetric matrices. At each point $(m,\Sigma) \in \Rd \times \pd$, the tangent space is given by $\Rd \times \sym$ with the usual Euclidean metric in $\Rd$, while $\sym$ is equipped with the scalar product
+\[
+\langle T, S \rangle_{\Sigma} := \tr(T\Sigma S)\,, \qquad S,T\in \sym\,.
+\]
+The Riemmanian exponential map is given by
+\begin{equation} \label{eq:expBW}
+\exp_\Sigma(T) := ( I + T) \Sigma(I + T)
+\end{equation}
+and the logarithmic map by $\log_\Sigma(\overline{\Sigma}) := \overline{\Sigma}(\Sigma \overline{\Sigma})^{-1/2} - I$ (see \cref{sec:2} for more details)
+
+A critical aspect of the BW manifold, is that it is not geodesically complete, since the exponential map is well-defined only as long as $I + T$ is positive definitive. In practice this means that starting from $\Sigma$, if we follow a tangent direction $T$, we might hit the boundary of degenerate Gaussian measure where the Riemmanian geometry is not well-defined.
+Therefore, naively adding noise to the deterministic particle system \eqref{eq:bwcbo} might result in ill-posed dynamics,
+\rev{as random tangent perturbations may hit the boundary of singular covariance matrices, where the Riemannian geometry degenerates.}
+
+We address this issue by linearizing the geometry. \rev{This allows us to work in a Hilbert space, where random perturbations are well-defined and barycenters are cheaper to compute.}
+
+
+\subsection{LBW parametrization} 
+
+\paragraph{Linearization.} Linear Optimal Transport (LOT) has recently gained popularity as a computationally efficient way of comparing probability measures while keeping some geometric features of the Wasserstein geometry \cite{kolouri2016continuous,moosmuller2023linear,sarrazin2024lot,craig2020lot}.
+
+The LOT idea consists of fixing a reference measure $\mu^0 \in \mathcal{P}_2(\Rd)$ and to parametrize every other probability measure $\mu$ with the associated OT map $\mathcal{T}:\Rd \to \Rd$ from $\mu^0$ to $\mu$:
+\[\mathcal{T} \mapsto  \mu := \mathcal{T}_{\#}\mu^0\,. \]
+The linearized $L^2$-Wasserstein distance with base $\mu^0$ is then given by
+\[\LW_{\mu^0}(\mu^1, \mu^2):= \|\mathcal{T}^1 - \mathcal{T}^2
+\|_{L^2(\mu^0)}\]
+where $\mathcal{T}^i$ is the OT maps associated with $\mu^i\in \mathcal{P}_2(\Rd)$.
+
+We consider the same parametrisation of the space of Gaussian measures, but we also link it the Riemmanian structure of BW. Let $\mu^0 = \mathcal{N}(0, \Sigma^0), \Sigma^0 \in \pd$ be a reference measure, we parametrize each Gaussian $\mathcal{N}(m, \Sigma)$ with $(m, T), T\in \sym$ where
+\[
+T \mapsto \Sigma = \exp_{\Sigma^0}(T). \]
+
+Due to the domain of definition of $\exp_{\Sigma}(\cdot)$, we note this parametrization is, to be precise,  well-defined only for $T$ such that $T + I \in \pd$. To avoid such restriction we simply set $\exp_{\Sigma^0}(T) = (I + T) \Sigma^0(I + T)$ for any $T\in \sym$ at the cost of losing the uniqueness of the parametrization. We refer to \cref{app:lbw} for more details on this technical aspect.
+
+Therefore, instead of defining the particle system in the BW manifold, we will fix a reference measure $\mathcal{N}(0, \Sigma^0)$ and consider a particle system evolving in the tangent space $\Rd \times \sym$ with Linearized BW (LBW) geometry given by 
+\[
+\langle (m^1, T^1), (m^2, T^2)\rangle_{\LBW(\Sigma^0)} := \langle m^1, m^2\rangle + \langle T^1, T^2 \rangle_{\Sigma_0}\,. 
+\]
+
+\paragraph{Barycenters.} 
+With respect to BW, we have the benefit of dealing with an unconstrained space, and so without the issue of losing the geometry when hitting the boundary. Also, the computations of barycenters, which we need for the definition of the consensus point, is sensibly cheaper.
+
+Indeed, let $\{(m^i, T^)\}_{i=1}^N$ be a collection of LBW-parametrized Gaussian probability measures. The associated LBW barycenter with weights $\{\omega^i\}_{i=1}^N$, $\sum_i\omega^i = 1$ is simply given by 
+$\mathcal{N}(\overline{m}, \overline{\Sigma})$ where $\overline{m} = \sum_{i} \omega^i m^i$ and
+\begin{equation}\label{eq:LBWbary_main}
+\overline{\Sigma}  = \exp_{\Sigma^0}(\overline{T})\,\quad \textup{with}\quad \overline{T} = \sum_{i=1}^N \omega^i T^i\,.
+\end{equation}
+On the contrary, computing BW barycenter would have required solving a matrix equation. See, again, \cref{app:lbw} for more details, and in particular \cref{fig:comparison} for a qualitatively comparison between the two notions of barycenters.
+
+
+\begin{figure}[t]
+\centering
+    \centering
+    \includegraphics[width=0.6\linewidth, trim = {2mm 3mm 0mm 6mm}, clip]{fig_cone}
+\caption{To visualize $S\in \psd$, 
+$S = ( a, c ; c, b)$, we first map it to $\R^3$ as $(a-b,2c,a+b)$. The cone $\psd$ is then given by $z \geq \sqrt{x^2 + y^2}$. The 2D plot is finally obtained by projection towards trace 1 matrices $S \mapsto S/\tr(S)$ (via $(x,y,z)\mapsto (x,y)/z$).
+}
+\label{fig:BM2}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.49\linewidth}
+    \centering
+    \includegraphics[width=\linewidth, trim = {0.5cm 1cm 8.2cm 0.5cm}, clip]{fig_random}
+    \caption{$I + B^T_t$}
+\end{subfigure} \hfill
+\begin{subfigure}[t]{0.49\linewidth}
+    \centering
+\includegraphics[width=\linewidth, trim = {8.2cm 1cm 0.5cm 0.5cm}, clip]{fig_random}
+        \caption{$\Sigma_t = \exp_{\Sigma^0}(B^T_t)$}
+\end{subfigure}
+\caption{A Brownian path in LBW space. If $B^T_t$ is a Brownian particle in $\sym$, it may leave the cone of OT maps, see (a) (equivalently, $I + B^T_t$ leaves the cone of positive semi-definite matrices $\psd$). The extended exponential map \eqref{eq:expBW}, though, automatically reflects the dynamics so that $\Sigma_t= \exp_{\Sigma^0}(B^T_t)\in \psd$ without additional computational effort, see (b). 
+}
+\label{fig:BM1}
+\end{figure}
+
+
+\paragraph{Brownian processes in LBW} To promote exploration in the particle algorithm, we will require to add noise in the dynamics. In LBW, we can conveniently define Brownian processes thanks to the finite-dimensional Hilbert structure given by $\langle \cdot, \cdot \rangle_{\LBW(\Sigma^0)}$. 
+
+Let $\{e_\ell\}_{\ell = 1}^{d(d+1)/2}$ be an basis for $\sym$ which is orthonormal with respect to $\langle\cdot, \cdot \rangle_{\Sigma^0}$, and 
+$\{\xi_t^\ell\}_{\ell = 1}^{d(d+1)/2}$ be independent one-dimensional Brownian processes. A Brownian process $(B^{\LBW}_t)_{t\geq 0}$ in LBW is then given by 
+\[
+B_{t}^{\LBW} = (B_t^m, B_t^T)\,\quad \textup{with}\quad B_t^T = \sum_{\ell = 1}^{d(d+1)/2} e_\ell \xi_t^\ell\,,
+\]
+where $B_t^m$ is a $d$-dimensional Brownian process.
+
+Remarkably, the associated Gaussian measure is a random process in $\mathcal{N}_d$ which may reach the boundary of degenerate Gaussian measures but the dynamics remains well-defined, see \cref{fig:BM1,fig:BM2} for an intuition in the $d = 2$ case.
+
+
+%%% Algorithm
+
+\section{Gaussian consensus-based optimization}
+\label{sec:cbo}
+
+\subsection{The particle dynamics}
+
+We are now ready to define the Consensus-Based Optimization (CBO) particle system in the LBW space. The $N$ Gaussian particles at time $t\geq 0$ are described tangent vectors at the reference measures $\mu^0 = \mathcal{N}(0,\Sigma^0), \Sigma^0 \in \pd$
+\[
+(m_t^i, T_t^i)\in \Rd\times \sym \qquad i = 1, \dots, N
+\]
+via the relation 
+$ \mu_t^i = \mathcal{N}\left( m^i_t,\Sigma_t^i   \right)$, with $\Sigma_t = \exp_{\Sigma^0}(T^i_t)$.
+
+A CBO-type dynamics \cite{pinnau2017consensus} is characterized by a deterministic component which drives particles towards the consensus point and a stochastic component favoring exploration of the search space.
+
+\paragraph{Consensus point.} As in the deterministic consensus dynamics \eqref{eq:bwcbo}, the consensus point corresponds to a weighted barycenter, now computed according to the LBW geometry.  To stress the the dependence of the barycenter on the entire particle system, we introduce the empirical measure
+$
+\rho_t^N = (1/N)\sum_{i=1}^N \delta_{(m^i_t, T^i_t)} \in \mathcal{P}(\Rd \times \sym)\,.
+$
+
+The consensus point is then given by the weighted LBW barycenter \eqref{eq:LBWbary_main} with exponential weights \eqref{eq:weights}. For an arbitrary measure $\rho\in \mathcal{P}(\Rd\times \sym)$, it reads
+\begin{equation} \label{eq:consensus}
+\begin{split}
+\overline{m}^\alpha[\rho] := \frac{\int m \,e^{-\alpha \E^\#(m, T)} \rho(\d m, \d T)}{\int e^{-\alpha \E^\#(m, T)} \rho(\d m, \d T)}\,,\\
+ \overline{T}^\alpha[\rho] := \frac{\int T \,e^{-\alpha \E^\#(m, T)} \rho(\d m, \d T)}{\int e^{-\alpha \E^\#(m, T)} \rho(\d m, \d T)}
+ \end{split}
+\end{equation}
+where, for notational simplicity, we introduced the finite-dimensional objective function 
+\[
+\E^\#(m,T) := \E(\mathcal{N}(m, \exp_{\Sigma^0}(T)))\,.\] 
+
+ For the empirical measure $\rho_t^N$, the consensus point  $(\overline{m}^\alpha[\rho^N_t], \overline{T}^\alpha[\rho_t^N])$ reduces to a weighted sum of the particles, which, for $\alpha\gg 1$, is close to the best particles among the ensemble thanks to the Boltzmann--Gibbs exponential weights. 
+Therefore, the consensus point can be considered a proxy for the best particle of the ensemble.
+
+\paragraph{Evolution.}
+Given two vectors $a,b\in \Rd$, we denote with $a\odot b \in \Rd$ the component-wise product, $(a\odot b)_{\ell} = a_\ell b_\ell$. We fix a basis $\bm{e} = \{e_\ell\}_{\ell = 1}^{d(d+1)/2}$ for $\sym$ orthonormal with the respect to $\langle \cdot, \cdot \rangle_{\Sigma^0}$. For $S,T\in \sym$, we define the component-wise product as
+\[
+T \odot S :=  \left(\sum_{\ell} T^{\bm{e}}_\ell e_\ell \right) \odot  \left(\sum_{\ell} S^{\bm{e}}_\ell e_\ell \right) = \sum_\ell T_{\ell}^{\bm{e}} S_{\ell}^{\bm{e}} e_\ell
+\]
+which corresponds to the component-wise product between the vectors of coefficients $(T_{1}^{\bm{e}},\dots, T^{\bm{e}}_{d(d+1)/2})$, $(S_{1}^{\bm{e}},\dots, S^{\bm{e}}_{d(d+1)/2})$. 
+
+Let $B_t^i = (B^{i,m}_t, B_t^{i,T})$ be $N$ independent Brownian processes taking values in $\Rd \times \sym$ constructed with the basis $\bm{e}$. 
+The CBO dynamics in LBW space reads for $i \in [N]$
+\begin{equation} \label{eq:cboLBW}
+\begin{dcases}
+\d m^i_t  &= \lambda(\overline{m}^\alpha[\rho^N_t] - m^i_t)\d t \\
+& \hspace{2cm} + \sigma (\overline{m}^\alpha[\rho^N_t] - m^i_t)\odot \d B_t^{i,m} \\
+\d T^i_t &= \lambda(\overline{T}^\alpha[\rho^N_t] - T^i_t)\d t \\
+& \hspace{2cm}  + \sigma(\overline{T}^\alpha[\rho^N_t] - T^i_t)\odot \d B_t^{i,T}
+\end{dcases}
+\end{equation}
+with $(m_0^i, T_0^i)\sim \rho_0$, i.i.d, for some $\rho_0 \in \mathcal{P}(\Rd\times \sym)$.
+
+Above, $\lambda, \sigma>0$ are two parameters controlling the strength of the deterministic and stochastic components respectively. We note that noise is possibly degenerate as it depends on the differences $(\overline{m}^\alpha[\rho^N_t] - m^i_t)$ and $(\overline{T}^\alpha[\rho^N_t] - T^i_t) $. In this way, particles which are far from the consensus point tend to have a more explorative behavior than those close to it. 
+
+This is an essential mechanism for ensuring emergence of consensus as the particles evolve. Also, the diffusion is anisotropic since each direction is explored at a different rate. This strategy has been proposed in \cite{carrillo2021consensus} for superior performance in high-dimensional problems.
+
+
+It is important to remark that, thanks to \eqref{eq:consensus}-\eqref{eq:cboLBW} and the definition of $\odot$, the CBO dynamics in LBW corresponds to the standard Euclidean CBO particle system if we identify each $T^i_t$ with its coefficients associated with the basis $\bm{e} = \{e_\ell\}_{\ell = 1}^{d(d+1)/2}$. Therefore, \eqref{eq:cboLBW} corresponds to a CBO dynamics in $\R^D$ with $D = d + d(d+1)/2$, and we can rely on the standard well-posedness results for CBO particle systems \cite{carrillo2021consensus, carrillo2018analytical}. 
+
+
+\subsection{Well-posedness}
+
+For completeness, we recall in the following the well-posedness results  and translate the assumption on the (finite-dimensional) objective function $\E^\# = \E^\#(m,T)$ into assumptions on the functional $\E = \E(\mu)$ for better interpretability. The proof of each result is collected in \cref{app:proofs:well}. Recall $\LW_{\mu^0}$  is the LOT distance, while we denote with simply $\W$ the $L^2$-Wasserstein distance.
+%
+
+
+\begin{lemma} \label{l:well}
+Let $\Sigma^0 \in \pd$ and $\mu^0 = \mathcal{N}(0, \Sigma^0)$. Assume $\mathbb{E}|m_0^i|^2,\mathbb{E}\|T_0^i\|_{\Sigma^0}^2 <0$, and that, for some $L_\E>0$ it holds for any $\mu^1, \mu^2 \in \mathcal{P}_2(\Rd)$
+\begin{multline} \label{asm:lip}
+|\E(\mu^1) - \E(\mu^2)| \leq L_\E \left(1 + M_2(\mu^1) + M_2(\mu^2)\right) \\\times  \LW_{\mu^0}(\mu^1, \mu^2)\,.
+\end{multline}
+Then, system \eqref{eq:cboLBW} admits a unique strong solution.
+\end{lemma}
+
+
+Let us discuss what type of functional $\E$ satisfy condition \eqref{asm:lip}.
+For energy functionals of type 
+\begin{equation}\label{eq:VW}
+ \mathcal{V}(\mu) = \!\!\int \!V(x)\mu(\d x), \, \mathcal{W}(\mu) = \!\!\iint \!W(x,y)\mu(\d x)\mu(\d y)\,
+\end{equation}
+a sufficient condition for \eqref{asm:lip} is the local Lipschitz continuity of $V$ and $W$. More delicate is the case of the log-entropy (relevant for the KL divergence) 
+\[\mathcal{U}(\mu)  = \begin{cases}
+ \int \log(\mu(x)) \mu(\d x) & \textup{if} \;\; \mu \ll \mathcal{L}^d \\
+ + \infty  &\textup{otherwise}
+ \end{cases}
+ \]
+as it takes the infinite value for singular Gaussian measures. Though, $\U$ satisfies a local Lipschitz bound for the $L^2$-Wasserstein distance $\W$ (which is stronger than a bound for $\LW_{\mu^0}$)  under a regularity condition (see \citep{polyanskiy2016wasserstein}, Proposition 1, recalled in \cref{app:proofs})
+
+ Let $\clip_{\ve}: \psd \to  \{\Sigma \in \pd: \Sigma \succcurlyeq \ve I\}$ be the function which clips the eigenvalues to a minimum value $\ve>0$ defined by $\textup{clip}_\ve(\Sigma) := \sum_{\ell} \max\{\lambda_\ell, \ve\} u_\ell u_\ell^\top $ for $\Sigma = \sum_{\ell} \lambda_\ell u_\ell u_\ell^\top$, 
+where $(\lambda_\ell, u_\ell)_\ell$ is an eigenbasis for $\Sigma$, as in \cite{lambert2022variational}. Then, we may now regularize the entropy functional by setting for $\mu = \mathcal{N}(m, \Sigma)$
+\begin{equation} \label{eq:clip}
+\U_\ve(\mu) : = \U\left( \mathcal{N}(m, \clip_\ve(\Sigma))\right)\, .
+\end{equation}
+
+This modification does not affect the location of the minimizers for $\ve \ll 1$ and ensures well-posedness of the particle system \eqref{eq:cboLBW}. We also have the following result.
+
+\begin{lemma} \label{l:KLregularized}
+Let $\mu^\targ \propto \exp(-V)$, with $V$ such that 
+$
+|V(x) - V(y)| \leq L_V(1 + |x| + |y|)|x - y|$
+for any $x,y \in \Rd$. 
+
+ The regularized divergence
+$\KL_\ve(\cdot | \mu^\targ): \mathcal{N}^d \mapsto [0, \infty)$,  
+\[\KL_\ve(\mu | \mu^\targ)= \mathcal{V}(\mu) + \mathcal{U}_\ve(\mu)\]
+satisfies the Lipschitz condition \eqref{asm:lip}.
+\end{lemma}
+We remark that the clipping is only necessary for the well-posedness of the time-continuous dynamics, and that, in practice, one can implement the algorithm by simply truncating the value of $\E$.
+
+More general internal energies can also be considered provided they satisfy \eqref{asm:lip}. For instance, in \cref{app:proofs:well} we also study the case of Maximum Mean Discrepancy (MMD).
+
+
+
+
+\subsection{Mean-field analysis}
+
+
+Mean-field approximations of interacting particle systems are a powerful tool to study their long time behavior. For CBO methods, the mean-field analysis allows to investigate the effectiveness of the algorithm by studying its convergence towards global minimizers \cite{carrillo2018analytical,carrillo2021consensus,fornasier2024consensusbased}.
+
+We show now that the same type of analysis also applies to the Gaussian CBO particle system \eqref{eq:cboLBW}. As for Lemma \ref{l:well}, we can rely entirely on the results available in the literature for standard CBO in $\R^D$ thanks to the finite-dimensional and Euclidean nature of $\Rd \times \sym$ equipped with the LBW product. We translate, when possible, the assumptions on $\E^\#$ into assumptions on $\E$.
+
+\paragraph{Chaos propagation.}
+The mean-field approximation of the particle system \eqref{eq:cboLBW} can be formally derived by assuming propagation of chaos of the particle system \cite{sznitman1991topics}. Let $F_t \in \mathcal{P}\left((\Rd\times \sym)^N\right)$ be the particles joint probability measure. If $F_0 = \rho_0^{\otimes N}$, we assume that for large particle systems $N\gg1$ the distribution at $t\geq 0$ can be approximated as $F_t \approx \rho_t^{\otimes N}$ for some $\rho_t \in \mathcal{P}(\Rd \times \sym)$.
+
+
+This means that the particles are i.i.d also at subsequent times $t\geq0$, and that each of them evolves according to the McKean--Vlasov process
+\begin{equation} \label{eq:mf}
+\begin{dcases}
+\d m_t \hspace{-3mm}&= \lambda(\overline{m}^\alpha[\rho_t] - m_t)\d t + \sigma (\overline{m}^\alpha[\rho_t] - m_t)\odot \d B_t^{m} \\
+\d T_t \hspace{-3mm}&= \lambda(\overline{T}^\alpha[\rho_t] - T_t)\d t + \sigma(\overline{T}^\alpha[\rho_t] - T_t)\odot \d B_t^{T} \\
+\rho_t \hspace{-3mm}&= \law(m_t, T_t)\,.
+\end{dcases}
+\end{equation}
+Note that the average mean $\overline{m}^\alpha[\rho_t^N]$ is  substituted above by $\overline{m}^\alpha[\rho_t]$, which depends on the own particle law $\rho_t$.
+
+\paragraph{Well-posedness.} We refer to \cref{app:proofs:mf} for the proofs.
+\begin{assumption} \label{asm:mf}
+The objective functional $\E$ is bounded from below over $\mathcal{N}^d$, $\underline \E : = \inf_{\mu\in \mathcal{N}^d}\E(\mu)$ and locally Lipschitz continuous \eqref{asm:lip}. Furthermore, either $\E$ is bounded from above, $\sup_{\mu\in \mathcal{N}^d}\E(\mu)< \infty$, or it grows quadratically at infinity:
+\[
+\E(\mu) - \underline \E \geq c_l M_2(\mu)^2 \qquad \textup{for}\quad \mu,\; \;M_2(\mu) \geq R\,,
+\]
+for some constants $R,c_l>0$.
+\end{assumption}
+
+
+\begin{lemma} \label{l:wellmf}
+Let $\mu^0 = \mathcal{N}(0, \Sigma^0), \Sigma^0 \in \pd$, $\E$ satisfy Assumption \ref{asm:mf}, and $\rho_0 \in \mathcal{P}_4(\Rd\times \sym)$. Then, there exists a unique non-linear process $(m,T)\in \mathcal{C}([0,\infty), \Rd \times \sym)$ satisfying \eqref{eq:mf} in a strong sense with $\lim_{t\to 0}\rho_t = \rho_0\in \mathcal{P}_2(\Rd\times \sym)$.
+\end{lemma}
+
+
+We have already discussed under which conditions the functionals $\mathcal{V}, \mathcal{W}, \mathcal{U}$ satisfy the local Lipschitz continuity \eqref{asm:lip}. Lower bound for $\mathcal{V}, \mathcal{W}$ follows from lower bound the $V$ and $W$ respectively. Clearly, if $\inf V, \inf W>-\infty$, then $\inf \mathcal{V}, \inf \mathcal{W}>-\infty.$ Also, if $V, W$ grow quadratically at infinity, so does $\mathcal{V}, \mathcal{W}$ (see \cref{l:growth}).
+
+For $\mathcal{U}$, we cannot expect quadratic growth at infinity, nor boundedness. Therefore, only the bounded, clipped version $\mathcal{U}_\ve$ \eqref{eq:clip} satisfies Assumption \ref{asm:mf} and, as a consequence, the same holds for the regularized divergence $\KL_\ve$ from a target $\mu^\targ \propto \exp(-V)$. 
+
+In the case of CBO-type dynamics, the propagation of chaos assumption can be actually substituted by rigorous mean-field limit results.  
+This justifies the study the model \eqref{eq:mf} to understand the algorithm convergence properties, see \cite{gerber2025uniform} for more details and updated references. 
+
+\subsection{Convergence towards global minima}
+
+ For $\alpha > 0$, recall the particle weights are given by $\omega(\mu) = \exp(-\alpha\E(\mu))$, and let us consider the corresponding finite-dimensional ones $\omega^\#(z) := \exp(-\alpha \E^\#(z))$ for $z\in \Rd\times \sym$.
+The cornerstone of the convergence analysis of CBO methods is the Laplace principle \cite{dembo2010} which states that for a compactly supported $\rho\in \mathcal{P}(\Rd\times \sym)$, it holds
+\begin{equation} \label{eq:laplace}
+\lim_{\alpha \to \infty} -\frac1\alpha  \log \int  \exp(- \alpha \E^{\#}(z))\rho(\d z)= \inf_{z\in \supp({\rho})} \E^{\#}(z) \,.
+\end{equation}
+
+For a quantitative version in terms of consensus points, see Proposition 4.5 in \citep{fornasier2024consensusbased}.  In the following, we denote with $\var(\rho)$ the variance of a probability measure $\rho$: $\var(\rho) = (1/2)\int\| z_1 - z_1\|^2 \rho(\d z_1)\rho(\d z_2)$
+
+We recall the convergence result from \citep{carrillo2021consensus} (Assumption 3.1, Theorem 3.2) applied to the finite dimensional setting in the space $\Rd\times \sym$.
+
+\begin{theorem} \label{t:convergence} Assume $\underline{\E} := \inf \E^\# > -\infty$, $\E^\#\in \mathcal{C}^2(\Rd\times \sym)$ with bounded second derivatives, that is, for an orthonormal basis $\{e_\ell\}_{\ell = 1}^{D}$, $D = d + d(d+1)/2$ there exists $c_\E$ such that  $\max _\ell \max_{z}\left | \partial^2 \E^{\#}(z)/\partial e_\ell^2 \right| < c_\E\,.$
+
+
+If $\alpha, \lambda, \sigma$ and the initial distribution $\rho_0$ is chosen such that $\argmin\,\E^\#(\mu) \subset \supp(\rho_0)$ and
+\begin{align*}
+C_1 &:= 2\lambda - \sigma^2 - 2\sigma^2 \frac{e^{-\alpha \underline{\E}}}{\| \omega^\#\|_{L^2(\rho_0)}} > 0\,, \\
+C_2&:= \frac{2 \var(\rho_0)} {C_1 \| \omega^\#\|_{L^2(\rho_0)}} \alpha e^{-\alpha \underline{\E} } c_\E (2\lambda + \sigma^2) \leq \frac34\,,
+\end{align*}
+then $\var(\rho_t) \to 0$ exponentially fast and there exists $\tilde z$ such that the consensus point and $\int z \rho_t(\d z)$ converge to $\tilde z$ exponentially fast.
+Moreover, it holds that 
+\[
+\E^\#(\tilde z) \leq \underline{\E}+ r(\alpha)  + \frac{\log 2}\alpha\,,
+\]
+where $r(\alpha):= - (1/\alpha) \log \| \omega^{\#}\|_{L^2(\rho_0)} - \underline{\E} \to 0$ as $\alpha \to \infty$ by the Laplace principle \eqref{eq:laplace}.
+\end{theorem} 
+
+\begin{remark}
+We note that parameters $\lambda, \sigma, \alpha$ and $\rho_0$ can always be picked to satisfy the Theorem's assumption by choosing, for $C_1$, $\sigma$ sufficiently small, and for $C_2$, $\var(\rho_0)$ sufficiently small.
+    \rev{The two key aspects in the assumptions are that $\sigma^2\lesssim 2\lambda$ and that $\textup{Var}(\rho_0)$ should be small. The first condition comes from an intrinsic property of the particle dynamics and says that, for consensus emergence to occur, the diffusion parameter $\sigma$ should not be too large.
+   
+    The requirement that $\textup{Var}(\rho_0)$ is small, instead, is more related to the variance-based proof strategy than to the particle dynamics itself. Indeed, such a restriction is not present when using the different analysis strategy proposed in \cite{fornasier2024consensusbased} (see \cref{rmk:fornasier} for more details). Finally, we remark that the result holds at the mean-field level, and that the accuracy of the mean-field approximation typically deteriorates for $\alpha \gg 1$ \cite{gerber2025uniform}, showing a trade-off between accuracy and computational cost of the algorithm. }
+\end{remark}
+
+For $\mathcal{V}$ and $\mathcal{W}$, differentiability with respect to the mean follows directly from that of $V$ and $W$.  Precisely, we have that the assumptions are verified provided $W \in \mathcal{C}^4(\mathbb{R}^d\times \Rd)$, with bounded second- and fourth-order derivatives (see \cref{app:proofs:convergence}).
+
+The log-entropy $\mathcal{U}$ is invariant under mean shifts, so $\nabla_m \mathcal{U}(\mu) = 0$.  
+For $\Sigma \in \pd$, see Appendix A.1 in \citep{lambert2022variational},  it holds
+$\nabla_\Sigma \mathcal{U}(\mu) = -(1/2)\,\Sigma^{-1}$.
+Moreover, let $e_\ell$ be the $\ell$-th canonical basis vector of $\mathbb{R}^d$, we have, see \cite{giles2008matrix}, 
+\[\frac{\partial}{\partial \Sigma_{ij}} \Sigma^{-1} = -\Sigma^{-1} e_i e_j^{\top} \Sigma^{-1}\,.\]
+
+Therefore, the boundedness assumptions in Theorem \ref{t:convergence} on the second derivatives, hold only on if we stay far away from singular Gaussian measures, in a subset $\Sigma \succ \ve\,I, \ve >0$.
+
+
+In practice, applying a smooth eigenvalue-clipping procedure to $\Sigma$, as done in \eqref{eq:clip}, ensures the covariance remains in this admissible set, which in turn guarantees convergence towards global minimizers.  \rev{This regularization affects the objective functional only near singular covariance matrices. Therefore, if the minimizer of the original energy has a non-degenerate covariance, the regularization should not affect the optimization problem.}
+A detailed analysis of such regularization is beyond the scope of this work.
+
+
+
+\section{Experiments}
+\label{sec:num}
+
+\renewcommand{\algorithmicfor}{\textbf{for (parallel)}}
+
+\begin{algorithm}[tb]
+  \caption{Gaussian Consensus-Based Optimization}
+  \label{alg:gcbo}
+  \begin{algorithmic}
+    \STATE {\bfseries Input:} Objective function $\mathcal{E}$, reference $\mu^0 = \mathcal{N}(0, \Sigma^0)$ 
+    \STATE \hspace{10mm} parameters $\lambda = 1, \sigma,\Delta t >0, \alpha \gg1, N \in \mathbb{N}$
+    \STATE  Initialize particles $(m^i, T^i)\in \Rd\times \sym, i \in [N]$
+    \STATE Evaluate objective $\E(\mu^i)$ with $\mu^i = \mathcal{N}(m^i, \exp_{\Sigma^0}(T^i))$
+    \REPEAT
+    \STATE Set particle weights $\omega^i \propto \exp(-\alpha \E(\mu^i))$
+    \STATE Compute consensus  $(\overline{m}^\alpha, \overline{T}^\alpha)$ with $\{\omega^i\}_{i = 1}^N$
+    \FOR{$i=1$ {\bfseries to} $N$}
+    \STATE Sample random normal vectors $(B^{i,m}, B^{i,T})$ 
+    \STATE Update particle $(m^i, T^i)$ with \eqref{eq:cbonum}
+    \STATE Update objective value $\E(\mu^i)$
+    \ENDFOR
+    \UNTIL{convergence reached}
+    \STATE {\bfseries Output:} Consensus Gaussian $\mathcal{N}(\overline{m}^\alpha, \exp_{\Sigma^0}(\overline{T}^\alpha))$
+  \end{algorithmic}
+\end{algorithm}
+
+
+\renewcommand\thesubfigure{\Alph{subfigure}} % uppercase (A), (B), ...
+%\begin{figure*}
+%\centering
+%\includegraphics[width = 0.48\linewidth]{fig_2D_A}
+%\includegraphics[width = 0.48\linewidth]{fig_2D_B}
+%\includegraphics[width = 0.48\linewidth]{fig_2D_C}
+%\includegraphics[width = 0.48\linewidth]{fig_2D_D}
+%\caption{Comparison between CBO and GF algorithms in approximating different target densities given by Gaussian mixture models with 2 components (A, B) and 4 components (C, D) (see Table \ref{table:tests}). The 2D plots show the computed solutions for a single run, while the KL evolution is averaged over 100 runs with different random initializations. Median and $[0.25, 0.75]$ interquartile ranges are shown. Parameters: $\Delta t = 0.1$ (except for C, where $\Delta t = 0.05$), $\lambda = 1, \sigma = 5, N = 20, \alpha = 10^4$. Reference measure for LBW is $\mathcal{N}(0, I)$.
+%%Supplementary videos illustrating the evolution are available here \cite{borghi2025figshare}. %to add afterwards in order not to break anonymity 
+%}
+%\label{fig:2dmany_main}
+%\end{figure*}
+
+\begin{figure*}
+\centering
+\includegraphics[width = 0.48\linewidth]{fig_2D_A_review}
+\includegraphics[width = 0.48\linewidth]{fig_2D_B_review}
+\includegraphics[width = 0.48\linewidth]{fig_2D_C_review}
+\includegraphics[width = 0.48\linewidth]{fig_2D_D_review}
+\caption{Comparison between CBO and \rev{baseline} algorithms in approximating different target densities given by Gaussian mixture models with 2 components (A, B) and 4 components (C, D) (see Table \ref{table:tests}). The 2D plots show the computed solutions for a single run, while the KL evolution is averaged over 100 runs with different random initializations. Median and $[0.25, 0.75]$ interquartile ranges are shown. Parameters: \rev{$\Delta t = 0.05$ (except for SVGD, $\Delta t/4$, and FR $\Delta t/2$, for better stability),}, $\lambda = 1, \sigma = 5, N = 20, \alpha = 10^4$. Reference measure for LBW is $\mathcal{N}(0, I)$.
+Supplementary videos illustrating the evolution are available here \cite{borghi2025figshare}. 
+}
+\label{fig:2dmany_main}
+\end{figure*}
+
+
+
+\subsection{Algorithm}
+
+We discuss now the implementation aspects of the Gaussian CBO dynamics and validate its optimization capabilities against different test problems. Further details on the experimental settings can be found in \cref{app:num}, and see \cref{alg:gcbo} for a pseudocode description.  The code used for the experiments is available at \url{https://github.com/borghig/GaussCBO}.
+
+\paragraph{Time discretization.} Let $\mu^0 = \mathcal{N}(0, \Sigma^0), \Sigma^0 \in \pd$ be a reference measure. We discretize the CBO particle dynamics \eqref{eq:cboLBW} via a simple Euler--Maruyama scheme with step size $\Delta t>0$:
+\begin{equation} \label{eq:cbonum}
+\begin{dcases}
+m^i_{(k+1)}\hspace{-3mm} &= m^i_{(k)} + \Delta t\,\lambda(\overline{m}^\alpha[\rho^N_{(k)}] - m^i_{(k)}) \\
+& \hspace{6mm} + \sqrt{\Delta t}\,\sigma (\overline{m}^\alpha[\rho^N_{(k)}] - m^i_{(k)})\odot  B_{(k)}^{i,m}, \\
+T^i_{(k+1)} \hspace{-3mm} &= T^i_{(k)} + \Delta t\,\lambda(\overline{T}^\alpha[\rho^N_{(k)}] - T^i_{(k)}) \\
+& \hspace{6mm} 
++ \sqrt{\Delta t}\,\sigma (\overline{T}^\alpha[\rho^N_{(k)}] - T^i_{(k)})\odot B_{(k)}^{i,T},
+\end{dcases}
+\end{equation}
+for $i \in[N]$. Here, $B_{(k)}^{i,m} \sim \mathcal{N}(0, I)$ are i.i.d., while $B_{(k)}^{i,T}$ are standard normal vectors with respect to the scalar product $\langle \cdot, \cdot \rangle_{\Sigma^0}$ (in \cref{app:random} we show how to sample them).
+
+\paragraph{Baseline.} 
+
+We compare the results with \rev{different methods based on the evolution of a Gaussian-measure according to different geometries: Bures--Wasserstein (BW) gradient flow \cite{lambert2022variational}, Gaussian Stein Variational Gradient Descent (SVGD) with kernel $K_1(x,y)=x^\top y+1$ \cite{liu2023towards}, and (natural) Fisher--Rao (FR) gradient flow \cite{barfoot2020multivariate}. Details of the methods can be found in \cref{app:baseline}. The objective function is $\KL(\mu\,|\,\mu^\targ)$ for all methods, and the flows are discretized via an explicit Euler scheme with step size $\Delta t$ and the same quadrature approximation for the expected values.}
+
+\paragraph{Settings.}
+In our experiments, the objective $\E$ is the KL divergence from the target measure $\mu^\targ \propto \exp(-V)$. Recall that, to compute the consensus point, we need to evaluate the functional $\E$ at the particle locations. Since $\KL(\mu\,|\,\mu^\targ) = \mathcal{U}(\mu) + \mathcal{V}(\mu)$, we set $\E(\mu) = M = 10^4$ whenever the particle’s covariance matrix is singular (when $\mathcal{U}(\mu) = +\infty)$. The expected value $\mathcal{V} = \int V(x) \mu(\mathrm{d}x)$, $V := -\log(\mu^\targ)$ is approximated using a quadrature rule based on $2d+1$ points \cite{aras2009cubature}, although a Monte Carlo estimate could also be used.
+
+
+
+\subsection{Tests}
+
+\paragraph{Case $d = 2$.}
+We test the algorithm for different Gaussian Variational Inference (VI) problems where targets are Gaussian mixture models with $K = 2$ or $K = 4$ components 
+\begin{equation}\label{eq:gmm}
+\mu^\targ = \sum_{k = 1}^{K}w_k \mathcal{N}(m_k, \Sigma_k)
+\end{equation}
+see Table \ref{table:tests} in \cref{app:num:2} for the exact definitions.
+
+Since system~\eqref{eq:cbonum} is over-parameterized, in CBO algorithms one typically  fixes $\lambda = 1$ \cite{carrillo2021consensus}. The other parameters are set to \rev{$\Delta t = 0.05$}, $\sigma = 5$, $\alpha = 10^4$, and $N = 20$. We keep $\Sigma^0 = I$ to be the reference measure throughout the computation. Given an initialization $(m_{(0)}, \Sigma_{(0)})$ for the \rev{baseline algorithms}, the CBO particles are initialized as $m^i_{(0)} = m_{(0)} + 0.1 \xi^i$, $\xi^i\sim \mathcal{N}(0,I)$, and $T^i_{(0)} = \log_{I}(\Sigma_{(0)}) + 0.1 \Xi^i$, where $\Xi^i_{\ell k} \sim \mathcal{N}(0,1)$ and $\Xi^i = (\Xi^i)^\top$. This makes the comparison between \rev{baseline} and CBO fairer, as it prevents the CBO particles from exploring the search space even before the dynamics begins.
+
+
+
+We perform the same experiments for different target measures (A, B, C, and D) and collect statistics over $100$ runs. The starting points $(m_{(0)}, \Sigma_{(0)})$ are initialized as $m_{(0)} \sim \textup{Unif}([-5,5]^2)$ and $\Sigma_{(0)} = I$ in all runs. For all targets, Figure~\ref{fig:2dmany_main} shows one illustrative run and the median KL divergence evolution over 100 runs, together with the $[0.25, 0.75]$ interquartile range. CBO outperforms \rev{baseline algorithms} in all scenarios considered: not only for non-logconcave targets (tests A, D) but also for unimodal ones (tests B, C). \rev{For the baseline algorithms SVGD and FR, the time step is reduced to $\Delta t/4$ and $\Delta t/2$, respectively,} to avoid numerical instability in the \rev{Euler} discretization.
+
+
+
+\paragraph{Algorithmic sensitivity.}
+The sensitivity of Gaussian CBO with respect to key algorithmic parameters, namely the diffusion strength $\sigma$, the number of particles $N$, and the choice of reference measure for the linearization of the LBW geometry, is analyzed in Appendix~\ref{app:num:2}. 
+
+Performance is influenced by $\sigma$, with intermediate values providing the best balance between exploration and consensus, %(Figure~\ref{fig:sigma}), 
+whereas increasing the number of particles beyond a modest threshold yields only marginal gains. %(Figure~\ref{fig:N}). 
+The effect of updating the reference Gaussian during the optimization to re-center the linearization around the current consensus was also examined, but no systematic improvement was observed in the considered problems. %(Figure~\ref{fig:base}).
+
+
+\paragraph{Case $d = 10$.}
+We also assess the performance of \rev{the baseline methods} and Gaussian CBO on synthetic Gaussian mixture targets in dimension $d=10$. 
+A detailed description of the experimental setup, normalization procedure, and parameter choices is provided in Appendix~\ref{app:num:10}. 
+Figure~\ref{fig:d10} reports the aggregated evolution of the relative KL divergence across multiple random instances. 
+Overall, Gaussian CBO exhibits more stable behavior \rev{than BW and FR baseline} with a smaller interquartile range and better average performance. 
+\rev{On average, though, CBO exhibits a worse performance than the SVGD baseline algorithm. For stability, time-steps of FR and SVGD were reduced to $\Delta t/20$.}
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[trim = {0 0 0 8mm}, clip , width = 1\linewidth]{fig_HD10_review}
+\caption{Comparison between CBO and \rev{baselines} in approximating Gaussian mixture targets ($K=5$) in $d = 10$. 
+The curves report the relative KL divergence $\mathrm{RelKL}(t) = \mathrm{KL}(t)/K^\star$, normalized by the best value achieved on each instance, and averaged across $M=20$ random mixtures. 
+Median and $[0.25,0.75]$ interquartile ranges are shown. 
+Parameters: $\Delta t = 0.1$, $T=75$, $\lambda=1$, $\sigma=2.5$, $N=100$, $\alpha=10^4$. \rev{For SVGD and FR, the time steps are reduced to $\Delta t/20$ for better stability.} Base measure not updated.
+}
+\label{fig:d10}
+\end{figure}
+
+
+\rev{
+\paragraph{Limitations.}
+The proposed method requires multiple function evaluations due to the particle-based nature of the optimizer. While these evaluations can be performed in parallel, this may limit its applicability in high-dimensional settings. 
+As mentioned, the tuning of the noise parameter $\sigma$ is also delicate and might be dimension-dependent \cite{carrillo2021consensus}. Moreover, in high dimension, the number of covariance parameters scales like $d^2$, so covariance optimization may dominate the mean optimization. A possible solution is to restrict the LBW geometry to Gaussians with diagonal covariances, as in \cite{petit2026variational}.
+
+Finally, the current approach returns a single Gaussian approximating the target measure, which might not be suitable for complex VI problems. In \cref{app:gmm}, we discuss a possible extension to Gaussian mixture models (GMMs) based on the introduction of multiple swarms of particles.}
+
+\rev{\begin{remark}
+The baseline algorithms are deterministic methods, while in the proposed CBO algorithm particles randomly explore the search space via Brownian paths. In the literature, stochastic versions of first-order optimizers have been proposed; see, for instance, \cite{lambert2022variational}, where the randomness comes from Monte Carlo evaluations of the objective functional rather than from explicit exploratory components in the dynamics. These are two different and possibly complementary notions of stochasticity, and we leave a systematic comparison for future work.
+\end{remark}}
+
+
+\section{Outlook}
+\label{sec:outlook}
+
+We have introduced a new computational paradigm based on Gaussian particles evolving according to a stochastic CBO-type dynamics in the Linearized Bures--Wasserstein (LBW) space.
+  
+The proposed framework enables efficient simulation of interacting particle systems while preserving essential features of the underlying Bures--Wasserstein geometry.  
+Beyond the specific algorithm developed here, the LBW representation opens the door to a variety of new stochastic optimization dynamics on the space of Gaussian measures.
+
+It is also natural to ask whether one can define and simulate the particle dynamics directly in the full Bures--Wasserstein space, without relying on linearization.  
+This would require a careful treatment of singular Gaussians, which is nontrivial in the non-linear geometry of $\mathcal{N}^d$.  
+
+Finally, the optimal transport viewpoint also opens the door to extensions of particle-based optimizers beyond the Gaussian setting, for instance along the lines of Linear Optimal Transport. 
+This would allow to handle broader classes of probability measures while retaining the consensus-based optimization paradighm.
+
+
+\section*{Aknowledgments}
+
+GB was supported by the Wolfson Fellowship of the Royal Society “Uncertainty quantification, data-driven simulations and learning of multiscale complex systems governed by PDEs” of Prof. L. Pareschi at Heriot-Watt University. JAC was supported by the Advanced Grant Nonlocal-CPD (Nonlocal PDEs for Complex Particle dynamics: Phase Transitions, Patterns and Synchronization) of the European Research Council Executive Agency (ERC) under the European Union’s Horizon 2020 research and innovation programme (grant agreement No. 883363). JAC was also partially supported by the “Maria de Maeztu” Excellence Unit IMAG, reference CEX2020-001105-M, funded by the Spanish ministry of Science MCIN/AEI/10.13039/501100011033/ and the EPSRC grant numbers EP/T022132/1 and EP/V051121/1.
+
+\section*{Impact Statement}
+
+This paper presents work whose goal is to advance the field of optimization and there are not potential societal consequences of our work.
+
+% In the unusual situation where you want a paper to appear in the
+% references without citing it in the main text, use \nocite
+\nocite{langley00}
+
+\bibliography{bibfile}
+\bibliographystyle{icml2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\onecolumn
+
+\section{Background on the Bures--Wasserstein space}
+\label{sec:2}
+
+In this section we recall in detail the geometry of the Bures--Wasserstein manifold as its relation with the $L^2$-Wasserstein distance between arbitrary probability measures.
+
+\subsection{Notation} 
+The set $\mathcal{P}(\Rd)$ is the set of Borel probability measure over $\Rd$, and $\mathcal{P}_2(\Rd)$ is the subset of measures with bounded second moments: $\mu \in \mathcal{P}(\Rd)$ with $M_2(\mu):= (\int |x|^2 \mu(\d x))^{1/2} < \infty$. $\mathcal{P}_2^{ac}\subset \mathcal{P}(\Rd)$ is the subset of measures admitting a density with respect to Lebesgue and we will sometimes abuse the notation by denoting the density of $\mu$ with $\mu = \mu(x)$ itself. For a point $x\in \Rd$, $\delta_x\in \mathcal{P}(\Rd)$ is the Dirac measure: $\delta_x(A) = 1$ if $x\in A$, and $0$ otherwise.
+
+With $\sym$ we indicate the set of $d\times d$ symmetric matrices, while $\psd, \pd \subset \sym$ are, respectively, the sets of positive semi-definite and positive definite symmetric matrices. Given a mean  $m\in \Rd$ and a covariance matrix $\psd$, we indicate the correspondent Gaussian probability measure with $\mathcal{N}(m,\Sigma)$, and with $\mathcal{N}^d\subset \mathcal{P}_2(\Rd)$ the set of all Gaussian probability measures over $\Rd$. For any $A,B\in \sym$ we write $A\succeq B$ if $A - B \in \psd$ and $A\succ B$ if $A - B \in \pd$. The trace operator is given by $A\in \R^{d\times d}$, $\tr(A) = \sum_{i=1}^d A_{ii}$, and for $A\in \pd$, $\sqrt{A} = B$ where $B $ is the unique matrix $B \in \pd$ such that $BB = A$.
+
+Random variables are assumed to be defined on a common probability space $(\Omega, \mathcal{F}, \mathbb{P})$. We write $X\sim \mu$, if $X$ is a random variable with law $\mu\in \mathcal{P}(\Rd)$. 
+
+\subsection{Wasserstein distance}
+For two $\mu, \nu\in \mathcal{P}_2(\Rd)$ the $L^2$-Wasserstein distance \cite{santambrogio2015optimal} is defined as
+\[
+\W(\mu, \nu) := \sqrt{\inf_{X\sim \mu,\, Y\sim \nu} \, \mathbb{E} |X - Y |^2}\,.
+\]
+Given two Gaussians $\mu = \mathcal{N}(m, \Sigma)$ and $\nu = \mathcal{N}(\overline{m}, \overline{\Sigma})$ which are non-singular, that is, $\Sigma, \overline{\Sigma}\in \pd$, the $L^2$-Wasserstein distance takes the explicit form \cite{givens1984class,olkin1982,dowson1983gauss}
+\[
+\W(\mu, \nu) = \sqrt{
+|m - \overline{m}|^2 + \tr(\Sigma) + \tr(\overline{\Sigma}) -  2\tr\left (\Sigma^{1/2}\overline{\Sigma} \Sigma^{1/2} \right)^{1/2}\,.
+}
+\]
+With a slight abuse of notation, for two zero-mean Gaussian measures we will sometimes use the shorter  $\W(\Sigma, \overline{\Sigma})$ to indicate $\W\left(\mathcal{N}(0,\Sigma),\mathcal{N}(0, \overline{\Sigma}) \right)$. In the literature, this is referred to as the Bures--Wasserstein distance, as it also coincides with the Bures metric \cite{uhlmann1992metric} between covariance matrices in quantum information theory.
+
+Let $\omega:\mathcal{P}(\Rd)\to [0, +\infty)$ be a weight function. Given a collection of probability measures $\mu^1, \dots, \mu^N\in \mathcal{P}_2(\Rd)$ , the weighted Wasserstein barycenters, or Frech\'{e}t means, are defined as the solutions to the problem
+\begin{equation}\label{eq:bary}
+\overline{\mu} \in \underset{\nu\in \mathcal{P}_2(\Rd)}{\textup{argmin}} \sum_{i = 1}^N \omega(\mu^i)\W^2(\mu^i, \overline{\mu})\,.
+\end{equation}
+The notion of barycenter generalizes the notion of mean to metric spaces, and uniqueness in the Wasserstein space is ensured only in presence of probability densities, see \cite{cariler2011bary} for more details.  Moreover, if the measures are non-singular Gaussians, $\mu^i = \mathcal{N}(m^i,\Sigma^i)$, $i = 1,\dots,N$, the  barycenter is unique and it is also a Gaussian $\overline{\mu} = \mathcal{N}(\overline{m},\overline{\Sigma})$ with mean and covariance matrix characterized by the equations
+\begin{equation}  \label{eq:BWbary}
+\overline{m} = \sum_{i = 1}^N \frac{\omega(\mu^i)}{\sum_j \omega(\mu^j)} m^i \,, \qquad \overline{\Sigma} = \sum_{i=1}^N \frac{\omega(\mu^i)}{\sum_j \omega(\mu^j)} \left((\Sigma^i)^{1/2}\overline{\Sigma} (\Sigma^i)^{1/2} \right)^{1/2}\,.
+\end{equation}
+We note that the barycenter mean takes an explicit form, while the covariance matrix is the solution of a matrix equation, which is well-defined \cite{ruschendorf2002}. 
+The  equation can be used for the computation of the barycenter via a fixed point iteration \cite{alvarez2016fixed} which is proven to convergence with a rate \cite{chewi2020gradient}. This strategy corresponds to solving \eqref{eq:bary} through a (Wasserstein) gradient descent algorithm with step size 1, see \cite{zemel2019frechet}.
+
+\subsection{Bures--Wasserstein manifold}
+
+The convenience of working with Gaussian measures goes beyond having explicit formulas for $\W$ and simpler characterization of  barycenters. The space of non-singular Gaussians with the $L^2$-Wasserstein metric attains the much richer structure of a Riemannian manifold,  known as the Bures-Wasserstein (BW) manifold \cite{takatsu2011,Malago2018,bathia2019}. 
+
+
+We identify the space of non-singular Gaussian measure with $\Rd \times \pd$. At every point $(m, \Sigma)\in \Rd \times \pd$, the tangent space is given by $T_{(m, \Sigma)}(\Rd \times \pd) = \Rd \times T_{\Sigma}\pd$ with
+\[
+T_\Sigma\pd = \sym\,.
+\]
+In the literature, one can find two different parametrizations of the BW Riemannian metric  on $T_\Sigma\pd$: one introduced in \cite{takatsu2011}, and the other one studied in \cite{Malago2018,bathia2019}. We use the former as it consistent with the classical Riemmanian-like structure of the $L^2$-Wasserstein space introduced in
+ the seminal paper by F. Otto for the porous medium equation \cite{otto2001geometry}. Moreover, it allows for more efficient computations of exponential maps, see Remark \ref{rmk:riemann} for a comparison with the alternative parametrization presented in \cite{Malago2018,bathia2019}.
+ For any $T, S\in T_{\Sigma}\pd$, the Riemannian metric is given by
+\begin{equation} \label{eq:dBW}
+d_\Sigma(T,S) = \tr(T\Sigma S) =: \langle T, S\rangle_{\Sigma} \,.
+\end{equation}
+The Riemannian exponential map  is defined by 
+\begin{equation} 
+\label{eq:expBW_app}
+ \exp_{\Sigma}(T) := (I+ T)\Sigma (I+ T)\qquad \textup{for}\quad T  \succ -I\,.
+\end{equation}
+ The condition $T \succ -I$ is required to ensure that  $(I + T) \Sigma (I+T)\succ 0$, that is, $\exp_{\Sigma}(T)\in \pd$. Therefore, the BW manifold is not geodesically complete and the definition domain of the exponential is the translated open cone $\pd - I$. 
+ The Riemannian logarithm between  $\Sigma,\overline{\Sigma} \in \pd$ is given by  
+\begin{equation} \label{eq:logBW}
+ \log_{\Sigma}(\overline{\Sigma}):= \overline{\Sigma}(\Sigma^i \overline{\Sigma})^{-\frac12} - I\,,
+\end{equation}
+and corresponds to the optimal transport map (shifted by $I$) between $\mathcal{N}(0,\Sigma)$ and $\mathcal{N}(0,\overline{\Sigma})$, that is, 
+\[
+\W^2(\Sigma, \overline{\Sigma}) = \mathbb{E}|X - ( I + \log_{\Sigma}(\overline{\Sigma})) X |^2
+\qquad \textup{with}\quad X \sim \mathcal{N}(0, \Sigma)\,.
+\]
+
+The restriction $T \succ - I$ on the exponential map $T$ becomes now intuitive in light of Brenier's theorem \cite{brenier1991}: as the optimal transport map needs to be the gradient of a convex function, we have indeed that $x^\top(I + T)x$ is convex only provided $I + T\succeq 0$.  The case where $I + T$ is only positive semi-definite is excluded as it would transport $\mathcal{N}(0, \Sigma)$ to a singular Gaussian, thus leaving the BW manifold.
+More generally, we underline that the BW geometry is 
+coherent with the formal Otto Riemannian geometry \cite{otto2001geometry}, which  is actually rigorous when restricting to the space of probabilities with smooth positive densities  \cite{lott2008some}. 
+
+Furthermore, the space of Gaussian measures can be seen as a stratified space of manifolds, each corresponding to a different rank of the covariance matrix \cite{yann2023different}. While Wasserstein distance between singular Gaussians are well-defined, the Riemannian structure is lost at the boundary of the BW manifold.
+We note that this stratified structure of sub-manifolds appears also in the larger $L^2$-Wasserstein space, see Remark 2.1 in \cite{ren2024ou}. 
+%%%
+
+
+\begin{remark}
+The BW geometry is only one of the possible choices of Riemannian geometry for $\pd$. A popular choice, for instance, is the Affine Invariant (AI) metric \cite{pennec2006ai}. In \cite{han2021on}, the authors compare the two metrics concluding that BW is more suitable  for optimization in $\pd$ thanks to its non-negative curvature and linear dependence on the space. Also, we note that the exponential maps in the form \eqref{eq:expBW_app} is computationally cheap to evaluate. This is an important feature that allow us to parameterize the space $\pd$ via tangent vectors in the Linearized Bures--Wasserstein geometry.
+\end{remark}
+
+
+\begin{remark}
+\label{rmk:riemann}
+In  \cite{Malago2018,bathia2019} the authors propose a different definition of the Riemmanian metric on $T\pd$ given by
+\begin{equation}
+\label{eq:dBWtidle}
+\tilde d_\Sigma(V,U):= \frac12 \tr\left( \mathcal{L}_\Sigma[V] U \right)
+\end{equation}
+for  $V,U\in \sym$ and $\Sigma\in\pd$, where $ \mathcal{L}_{\Sigma}[V]$ is known as the Lyapunov operator, and it is the unique solution to the Lyapunov equation
+$ \mathcal{L}_{\Sigma}[V] \Sigma + \Sigma  \mathcal{L}_{\Sigma}[V] = V$.
+The corresponding exponential map is studied in details in \cite{yann2023different} and it is given by
+\begin{equation*} 
+   \widetilde{\exp}_{\Sigma}(V)  = \Sigma + V + \mathcal{L}_{\Sigma}[V] \Sigma  \mathcal{L}_{\Sigma}[V]\,.
+\end{equation*}
+The relation between the different metrics proposed, \eqref{eq:dBW} and \eqref{eq:dBWtidle}, is given by 
+\begin{equation*}
+T = \mathcal{L}_{\Sigma}[V]\,.
+\end{equation*}
+The literature for the computation of the Lyapunov operator is particularly rich and it includes methods for large-scale matrices too, see the review paper \cite{simoncini2016}. As mentioned in \cite{han2021on}, the cost of exact computation is the same as matrix exponential or inversion, that is, $\mathcal{O}(d^3)$. The exponential map \eqref{eq:expBW_app}, instead, requires to perform matrix multiplications. 
+
+\end{remark}
+
+
+
+
+\section{Linearized Bures--Wasserstein space}
+\label{app:lbw}
+
+In this section we propose a more detailed derivation of the Linearized Bures--Wasserstein (LBW) geometry used to define the Gaussian Consensus-Based Optimization algorithm.
+
+\subsection{Linear Optimal Transport} 
+
+The Linear Optimal Transport (LOT) distance is a computationally efficient metric between probabilities measures which has recently gained popularity in applications \cite{kolouri2016continuous,moosmuller2023linear,sarrazin2024lot,craig2020lot}. 
+Consider a  reference probability measure $\mu^0 \in \mathcal{P}_2^{ac}(\Rd)$, and $\mu^1, \mu^2 \in \mathcal{P}_2(\Rd)$. Let $\mathcal{T}_1, \mathcal{T}_2:\Rd \to \Rd$ the  OT  maps from $\mu^0$ to $\mu^1, \mu^2$, respectively. That is, we have that $\W(\mu^0, \mu^1)^2 = \mathbb{E} |X - \mathcal{T}_1(X)|^2$ if $X \sim \mu^0$, and the same holds for $\mu^2$. The LOT distance with base $\mu^0$ is given by 
+\begin{equation}
+\LW_{\mu^0}(\mu^1, \mu^2):= \mathbb{E} |\mathcal{T}_1(X) - \mathcal{T}_2(X) |^2  \qquad \text{for}\quad  X\sim \mu^0\,,
+\end{equation}
+or, equivalently, it corresponds to the weighted $L^2$ norm $\| \mathcal{T}_1 - \mathcal{T}_2\|_{L^2(\mu^0)}$ between the OT maps. Derived as a simplified version of the Wasserstein metric, its main feature is that it allows to compute the mutual distances between $N$ probability measures by solving only $N$ optimal transport problems (instead of the $N^2$ required by $\W$).
+
+We apply the LOT approach to the BW space to derive the LBW metric between Gaussian measures. As we expect, this corresponds to the BW Riemannian metric at a reference Gaussian measure $\mu^0$. 
+
+To show this, we first recall that if $Y\sim \mathcal{N}(0,\Sigma)$, then $\mathbb{E}|Y|^2 = \tr(\Sigma)$ and, for $A\in \sym$, it holds $AY \in \mathcal{N}(0, A\Sigma A)$.
+Consider now $\mu^0 = \mathcal{N}(0,\Sigma^0), \Sigma^0 \in \pd$, and, for simplicity, two other zero-mean measures  $\mu^1 = \mathcal{N}(0, \Sigma^1), \mu^1 = \mathcal{N}(0, \Sigma^1)$, $\Sigma^1, \Sigma^2 \in \pd$. We note that the OT map between zero-mean Gaussians is a linear map, and in particular, from \eqref{eq:expBW_app} and \eqref{eq:logBW} it holds $\mathcal{T}_i(x) = (I + \log_{\Sigma^0}(\Sigma^i))x$,  $i = 1,2$.
+Direct computations show that the LOT distance corresponds to the BW metric at $T_{\Sigma^0}\pd$:
+\begin{align*}
+\LW_{\mu^0}(\mu^1, \mu^2)^2 & = \mathbb{E}| \mathcal{T}_1(X) - \mathcal{T}_2(X)|^2 \\
+& = \mathbb{E}| (\mathcal{T}_1(X) - X ) - (\mathcal{T}_2(X) - X)|^2 \\
+& = \mathbb{E} \left|\left (\log_{\Sigma^0}(\Sigma^1) - \log_{\Sigma^0}(\Sigma^2)\right) X\right|^2 \\
+& = \tr\left( \left (\log_{\Sigma^0}(\Sigma^1) - \log_{\Sigma^0}(\Sigma^2)\right) \Sigma^0 \left (\log_{\Sigma^0}(\Sigma^1) - \log_{\Sigma^0}(\Sigma^2)\right)    \right) \\
+& = \| \log_{\Sigma^0}(\Sigma^1) - \log_{\Sigma^0}(\Sigma^2)\|^2_{\Sigma^0}
+\end{align*}
+since $\tr(A\Sigma^0 B) = \langle A, B \rangle_{\Sigma^0} $ from \eqref{eq:dBW}. 
+Of course, if we include arbitrary means $m^1, m^2 \in \Rd$, for $\mu^1= \mathcal{N}(m^1, \Sigma^1)$, $\mu^2= \mathcal{N}(m^2, \Sigma^2)$ the same computations lead to 
+\begin{equation}
+\LW_{\mu^0}(\mu^1, \mu^2)^2 = |m^1 - m^2|^2 + \| \log_{\Sigma^0}(\Sigma^1) - \log_{\Sigma^0}(\Sigma^2)\|^2_{\Sigma^0}\,.
+\end{equation}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.9\linewidth}
+\includegraphics[width = 1\linewidth]{fig_interpolation}
+\caption{Geodesics in the BW and LBW spaces}
+\label{fig:comparison:int}
+\end{subfigure}
+\medskip
+
+\begin{subfigure}[t]{0.9\linewidth}
+\includegraphics[width = 1\linewidth]{fig_barycenter}
+\caption{Barycenters between 3 Gaussian particles in the BW and LBW spaces }
+\label{fig:comparison:bar}
+\end{subfigure}
+\caption{
+Visual comparison between the geometry of BW and its linearization LBW. Different scenarios are considered, and, in particular, different base measures for LBW are used. Each Gaussian measure $\mathcal{N}(m,\Sigma)$ is represented by an ellipsis centered at the mean $m$ and stretched according to the covariance matrix $\Sigma$.
+}
+\label{fig:comparison}
+\end{figure}
+
+
+
+\subsection{Geodesics, barycenters and extension of exponential maps}
+
+Geodesics in the LBW geometry corresponds to the Wasserstein generalized geodesics \cite{ags2008} and are given by $\mu(\tau) = \mathcal{N}(m(\tau), \Sigma(\tau))$ $\tau \in [0,1]$ with
+\begin{equation*}
+m(\tau) = (1-\tau)m^1 +\tau m^2\,, \qquad
+\Sigma(\tau) = \exp_{\Sigma^0}\left((1-\tau)\log_{\Sigma^0}(\Sigma^1) + \tau \log_{\Sigma^0}(\Sigma^2) \right)\,.
+\end{equation*}
+In Figure \ref{fig:comparison:int} we compare BW and LBW geodesics for different values of $\Sigma^0, \Sigma^1, \Sigma^2$. The two geometries seem to diverge the more the covariance matrices are close to being singular.
+
+
+Barycenters in LBW take an explicit form, unlike BW barycenters. Consider $N$ Gaussian particles $\mu^i = \mathcal{N}(m^i, \Sigma^i), i = 1, \dots, N$, their weighted LBW barycenter is directly given by $\overline{\mu} = \mathcal{N}(\overline{\mu}, \overline{\Sigma})$ with 
+\begin{equation} \label{eq:LBWbary}
+\overline{m} = \sum_{i = 1}^N \frac{\omega(\mu^i)}{\sum_j \omega(\mu^j)} m^i \,, \qquad \overline{\Sigma} = \exp_{\Sigma^0}\left( \sum_{i=1}^N \frac{\omega(\mu^i)}{\sum_j \omega(\mu^j)} \log_{\Sigma^0}(\Sigma^i)  \right)\,.
+\end{equation}
+Note that if we identify $\Sigma^i$ with the corresponding tangent vector $T^i = \log_{\Sigma^0}(\Sigma^i)$ the characterization of the barycenter reduces to   
+\begin{equation} \label{eq:Tbary}
+\overline{T} = \sum_{i = 1}^N \frac{\omega(\mu^i)}{\sum_j \omega(\mu^j)} T^i\,.
+\end{equation}
+While it may not be obvious by their respective expressions  \eqref{eq:BWbary} and  \eqref{eq:LBWbary}, the LBW barycenter corresponds to a first order approximation to the BW one. As shown in \cite{zemel2019frechet}, the LBW barycenter vector $\overline{T}$  \label{eq:Tbary} corresponds to the (negative) gradient of the BW barycenter functional \eqref{eq:bary}. As we can see from Figure \ref{fig:comparison:bar}, this approximation can be fairly accurate if, again, the Gaussian particles are far from the singularity.
+
+
+%\begin{figure}
+%\centering
+%\begin{subfigure}[t]{0.30\linewidth}
+%    \centering
+%    \includegraphics[width=\linewidth, trim = {2mm 3mm 0mm 6mm}, clip]{fig_cone}
+% %   \caption{}
+%   % \label{fig:random:cone}
+%\end{subfigure}
+%\hfill
+%\begin{subfigure}[t]{0.34\linewidth}
+%    \centering
+%    \includegraphics[width=\linewidth, trim = {0.5cm 1cm 8.2cm 0.5cm}, clip]{fig_random}
+%    \caption{$I + B^T_t$}
+%    %\label{fig:random:walk}
+%\end{subfigure}
+%\begin{subfigure}[t]{0.34\linewidth}
+%    \centering
+%\includegraphics[width=\linewidth, trim = {8.2cm 1cm 0.5cm 0.5cm}, clip]{fig_random}
+%        \caption{$\Sigma_t = \exp_{\Sigma^0}(B^T_t)$}
+%    %\label{fig:random}
+%\end{subfigure}
+%\caption{A Brownian path in LBW space. If $B^T_t$ is a Brownian particle in $\sym$, it may leave the cone of optimal transport maps, see (a) (equivalently, $I + B^T_t$ leaves the cone of positive semi-definite matrices $\psd$). The extended exponential map \eqref{eq:expBW_app}, though, automatically reflects the dynamics so that $\Sigma_t= \exp_{\Sigma^0}(B^T_t)\in \psd$ without additional computational effort, see (b). To visualize a symmetric matrix 
+%$S = ( a, c ; c, b)$, we first map it to $\R^3$ as $(a-b,2c,a+b)$. The cone $\psd$ is then given by $z \geq \sqrt{x^2 + y^2}$. The 2-dimensional plot is finally obtained by projection towards trace 1 matrices $S \mapsto S/\tr(S)$ (or, equivalently, $(x,y,z)\mapsto (x,y)/z$).
+%}
+%\label{fig:BM}
+%\end{figure}
+
+
+
+
+Following the LOT approach, we are identifying each non-degenerate Gaussian measure with its corresponding BW tangent vector. Since the BW manifold is geodesically incomplete and the exponential domain is $\pd - I$ (not the entire tangent space $\sym$), the parametrization of the covariance matrices is given by
+\begin{align*}
+(\pd- I) &\to \pd \\
+T & \mapsto \Sigma = \exp_{\Sigma^0}(T)\,.
+\end{align*}
+To be able to parametrize every Gaussian measure, possibly with a singular covariance matrix, we can extend by continuity the definition domain to the closed convex cone $\psd - I$. We will go further and extend its definition to the entire space $\sym$ by simply setting 
+\[
+\exp_{\Sigma^0}(T):=(I +T)\Sigma^0 (I + T)\qquad \textup{for any} \quad T \in \sym.
+\]
+Note that the exponential always satisfies $\exp_{\Sigma^0}(T)\in \psd$.  
+
+To sum up, given a base Gaussian measure $\mu^0 = \mathcal{N}(m^0, \Sigma^0)$, $m^0\in \Rd, \Sigma \in \pd$, the LBW space can be identified as the finite-dimensional Euclidean space
+\begin{equation}
+\label{eq:LBW}
+\Rd \times \sym \quad \textup{with product} \quad \langle m^1 , m^2\rangle + \langle T^1, T^2 \rangle_{\Sigma^0} 
+\end{equation}
+for any $(m^1, T^1), (m^2, T^2)\in\Rd \times \sym$, and we denote with $\|\cdot \|_{\textup{LBW}(\Sigma^0)}$ the respective norm.
+While this leads to a redundant parametrization of $\mathcal{N}_d$, we obtain the computational benefit of dealing with an unconstrained space rather than the open cone $\pd - I$. This is particularly convenient for the definition of Brownian Gaussian particles. 
+
+\subsection{Brownian processes in LBW}
+\label{sec:brown}
+
+We recall for completeness how we constructed a Brownian process in LBW.
+
+Note that the dimension of $\sym$ is $d(d+1)/2$ and that, for $\Sigma^0 = I$ an orthogonal basis is simply given by symmetric matrices with either only one non-zero entry at the diagonal, or two non-zero entries off the diagonal. We refer to Section \cref{app:num} for a discussion on how to generate an orthonormal basis $\{e_\ell\}_{\ell = 1}^{d(d+1)/2}$ for an arbitrary $\Sigma^0\in \pd$.
+Consider now a Brownian process $(B_t^m)_{t\geq 0}$ in $\Rd$ and $d(d+1)/2$ i.i.d. one-dimensional Brownian processes $\{(\xi^\ell)_{t\geq 0}\}_{\ell = 1}^{d(d+1)/2}$. We can construct a Brownian process in LBW as
+\begin{equation} \label{eq:BM}
+B_t:= (B_t^m, B_t^T) \qquad \textup{where} \quad B^T_t:= \sum_{\ell=1}^{d(d+1)/2} e_\ell\, \xi_t^\ell\;.
+\end{equation}
+It is interesting to note that the associated probability measure
+\[
+\mu_t = \mathcal{N}(B^m_t, \Sigma_t) \qquad \textup{with} \quad \Sigma_t = \exp_{\Sigma^0}(B_t^T) 
+\]
+is a random process taking values in the space $\mathcal{N}_d$ of Gaussian measures. Moreover, it explores the entire $\mathcal{N}_d$, including Gaussians with singular covariance matrix, going therefore beyond the BW space. Figure \ref{fig:BM2} shows a Brownian path $B_t^T$ and the corresponding covariance matrix $\Sigma_t$ via a 2-dimensional projection of the dynamics. 
+
+\begin{remark}
+In principle, one could choose to restrict the LBW space to the closed cone of optimal transport maps, that is, constrain the tangent vector $T \in \sym$ to the closed convex cone $\psd - I$ by including suitable  boundary conditions. The random process exploring the space would then consist of a reflected SDE \cite{pilipenko2014} 
+whose numerical simulation requires to project the dynamics back to the cone at every time iteration \cite{pettersson2000}. Therefore, for computational efficiency, we chose here to simply extend the domain of the map $\exp_{\Sigma^0}(\cdot)$ to the entire space $\sym$,  and to consider unconstrained dynamics. 
+\end{remark}
+
+
+\section{Well-posedness and convergence: proofs and additional remarks}
+\label{app:proofs}
+
+We recall in this section the main assumptions under which the particles CBO dynamics \eqref{eq:cboLBW} and its mean-field approximation \eqref{eq:mf} are well-defined, and provide the proofs. We also discuss additional convergence techniques for the CBO-type algorithms (see \cref{rmk:fornasier}).
+
+\subsection{Particles dynamics: Lemma \ref{l:well} and Lemma \ref{l:KLregularized}} \label{app:proofs:well}
+
+In Lemma \ref{l:well} we claimed that the particle evolution \eqref{eq:cboLBW} admits a unique strong solution provided \eqref{asm:lip} holds, which we recall was 
+\[
+|\E(\mu^1) - \E(\mu^2)| \leq L_\E \left(1 + M_2(\mu^1) + M_2(\mu^2)\right)  \LW_{\mu^0}(\mu^1, \mu^2)\,.
+\]
+
+\begin{proof}[Proof of Lemma \ref{l:well}]
+Recall from \eqref{eq:LBW} that the LBW norm on $\Rd\times \sym$ with base $\Sigma^0$ is given by  $\| (m,T) \|_{\textup{LBW}(\Sigma^0)}^2   = |m|^2 + \| T\|^2_{\Sigma^0}$.
+We first notice that the locally Lipschitz continuity assumption on $\E^\#$ is equivalent to show
+\begin{multline*}
+ |\E^\#(m^1,T^1) - \E^\#(m^2,T^2)|\leq L_\E \left(1  + \|(m^1,T^1)\|_{\textup{LBW}(\Sigma^0)} + \|(m^2,T^2)\|_{\textup{LBW}(\Sigma^0)} \right) \\
+ \times \|(m^1,T^1)- (m^2,T^2)\|_{\textup{LBW}(\Sigma^0)}\,.
+\end{multline*}
+This is also an equivalent condition to \eqref{asm:lip} since $M_2(\mu^i)$ and  $\|(m^i,T^i)\|_{\textup{LBW}(\Sigma^0)}$ are equivalent up to a positive constant:
+\begin{equation} \label{eq:moments}
+M_2(\mu^i)^2 = |m^i|^2 + \text{Tr}((I + T^i)\Sigma^0(I + T^i)) = |m^i|^2 + \|I + T^i\|^2_{\Sigma^0}\,,
+\end{equation}
+and since 
+$
+\LW_{\mu^0}(\mu^1, \mu^2) = \|(m^1,T^1)- (m^2,T^2)\|_{\textup{LBW}(\Sigma^0)}.
+$
+After identifying $\Rd \times \sym$ with $\R^D$ for given an orthonormal basis, we can use the well-posedness result, Theorem 2.1 in \cite{carrillo2018analytical}, which states that the dynamics is well-posed for a locally Lipschitz, finite-dimensional, objective function $\E^\#$. 
+\end{proof}
+
+
+Next, we claimed in Lemma \ref{l:KLregularized} that a regularized version of the KL divergence, $\KL_\ve$ satisfies the locally Lipschitz condition \eqref{asm:lip} needed for well-posedness.
+We recall that for a target measure $\mu^\targ \propto \exp(-V)$ the KL divergence is given for $\mu \in \mathcal{P}^{ac}(\Rd)$ by
+\[
+\KL(\mu | \mu^\targ)  = \mathcal{V}(\mu) + \mathcal{U}(\mu)
+= \int V(x) \mu(\d x) + \int \log(\mu(x))\mu(\d x)\,.
+\]
+
+In \cref{sec:cbo} we considered a regularized version $\mathcal{U}_\ve, \ve>0,$ for the log-entropy $\mathcal{U}$ defined as
+\[
+\mathcal{U}_\ve(\mu) = \mathcal{U}\left(\mathcal{N}(m, \clip_\ve(\Sigma)) \right)\qquad \textup{for}\quad \mu= \mathcal{N}(\mu, \Sigma)\,,
+\]
+where $\textup{clip}_\ve(\Sigma) := \sum_{\ell} \max\{\lambda_\ell, \wedge \ve \} u_\ell u_\ell^\top $ for $\Sigma = \sum_{\ell} \lambda_\ell u_\ell u_\ell^\top$,  with $(\lambda_\ell, u_\ell)_\ell$ an eigenbasis for $\Sigma$. The associated regularized  KL divergence for Gaussians $\mu$ is then given by 
+\[
+\KL_\ve(\mu | \mu^\targ)  = \mathcal{V}(\mu) + \mathcal{U}_\ve(\mu)\,.
+\]
+
+We recall first a result from \cite{polyanskiy2016wasserstein}
+
+\begin{proposition}[{\cite{polyanskiy2016wasserstein}, Proposition 1}] \label{p:polyan}
+Let $\mu^1, \mu^2 \in \mathcal{P}_2^{ac}(\Rd)$, and $(c_1,c_2)$-regular, that is, such that
+\[
+| \nabla \log \mu^i(x)| \leq c_1 |x| + c_2\,,
+\]
+then 
+\begin{equation}
+|\mathcal{U}(\mu^1) - \mathcal{U}(\mu^1)| \leq \left (c_2 + \frac{c_1}2M_2(\mu^1) + \frac{c_1}2M_2(\mu^2)\right ) \W(\mu^1, \mu^2)\,.
+\end{equation}
+\end{proposition}
+
+
+\begin{proof}[Proof of Lemma \ref{l:KLregularized}] 
+We need to check that $\KL_\ve$ satisfied the locally Lipschitz condition \eqref{asm:lip}.  First of all, we note that since the LOT distance is an upper bound for the $L^2$-Wasserstein distance, condition 
+\begin{equation} \label{eq:wasslip}
+|\E(\mu^1) - \E(\mu^2)| \leq L_\E \left(1 + M_2(\mu^1) + M_2(\mu^2)\right)  \W(\mu^1, \mu^2)
+\end{equation}
+implies \eqref{asm:lip}. We show that both $\mathcal{V}$ and $\mathcal{U}_\ve$ satisfy  \eqref{eq:wasslip} and, as a consequence, so does $\KL_\ve$.
+
+Note that $\mathcal{V}(\mu) = \mathbb{E}V(X)$ for $X\sim \mu$, and let $\mu^1, \mu^2\in \mathcal{N}^d$ and $X^1\sim \mu^1, X^2\sim\mu^2$ such that are they are optimally coupled: $\mathbb{E}|X^1 - X^2|^2 = \W^2(\mu^2)$. It holds
+\begin{align*}
+|\mathcal{V}(\mu^1) - \mathcal{V}(\mu^2)|
+ &= |\mathbb{E}V(X^1) - \mathbb{E}V(X^2)| \\
+ & \leq L_V\mathbb{E}\left[(1 + |X^1| + |X^2|)|X^1 - X^2|\right] \\
+ & \leq L_V \sqrt{\mathbb{E}\left[ (1 + |X^1| + |X^2|)^2 \right]}
+ \sqrt{\mathbb{E}|X^1 - X^2|^2} \\
+ & \leq C L_V \left((1 + \sqrt{\mathbb{E}|X^1|^2} + \sqrt{\mathbb{E}|X^1|^2}\right)) \W(\mu^1, \mu^2)
+\end{align*}
+for some $C>0$, where we used Cauchy--Schwartz inequality and the coupling optimality. Since $\sqrt{\mathbb{E}|X^i|^2} = M_2(\mu^i)$, we proved that $\mathcal{V}$ is locally Lipschitz in the sense of \eqref{eq:wasslip}.
+
+
+For $\mu = \mathcal{N}(m, \Sigma)$ with $\Sigma \succcurlyeq \ve I$, $\ve>0$, it holds
+\[
+|\nabla \log \mu(x)| = |\Sigma^{-1}(x - m)| \leq \ve^{-1} (|x| + |m|),
+\]
+sine the largest eigenvalue of $\Sigma^{-1}$ is bounded by $\ve^{-1}$. By applying Proposition \ref{p:polyan} we then obtain that \eqref{eq:wasslip} is satisfied uniformly for Gaussians with bounded eigenvalues.
+\end{proof}
+
+We conclude with a remark on other possible energy functionals.
+
+\begin{remark}
+    An alternative discrepancy measure to the KL divergence is the Maximum Mean Discrepancy (MMD) induced by a reproducing kernel Hilbert space (RKHS). Under suitable smoothness and normalization conditions on the kernel, one can prove that the MMD is controlled by the Wasserstein distance. In particular, as shown in \cite{vayer2023kernel}, Proposition 2, Corollary 3,  it holds
+\[
+\|\mu^1 - \mu^2\|_{\mathcal{H}_\kappa} \leq C \W(\mu^1, \mu^2),
+\]
+for a constant $C$ depending on the curvature of the kernel at the origin. We refer to \cite{vayer2023kernel} and the references therein for more details and the definition of the norm $\|\cdot\|_{\mathcal{H}_\kappa}$ associated to the reproducing kernel space $\mathcal{H}_\kappa$.
+\end{remark}
+
+\subsection{Proof of Lemma \ref{l:wellmf}} \label{app:proofs:mf}
+
+Recall in Lemma \ref{l:wellmf} we stated that the mean-field dynamics \eqref{eq:mf} admits a unique strong solution provided $\E$ satisfies \cref{asm:mf}. That is, if $\E$ is bounded form below, and either bounded from above or grows quadratically at infinity 
+\begin{equation}\label{eq:growth}
+\E(\mu) - \inf \E \geq c_l M_2(\mu)^2 \qquad \textup{for}\quad \mu, \quad M_2(\mu)>R\,.
+\end{equation}
+
+\begin{proof}[Proof of Lemma \ref{l:wellmf}]
+As in Lemma \ref{l:well}, well-posedness of the mean-field dynamics follows from well-posedness of the mean-field CBO dynamics in $\R^D$. In \cite{carrillo2021consensus} the authors prove well-posedness provided the finite-dimensional objective $\E^\#$ satisfies
+\begin{enumerate}[label=\roman*)]
+\item  $\underline{\E} = \inf \E^\# > -\infty$;
+\item  there exists constants $\tilde{L}_{\E}, \tilde{c}_u$ such that for all $z_1 =(m^1, T^1), z_2 = (m^2, T^2)$
+\begin{equation*}
+\begin{dcases}
+|\E^\#(z_1) - \E^\#(z_2)|  \leq \tilde{L}_{\E}\left(1 + \| z_1 \|_{\textup{LBW}(\Sigma^0)} + \|z_2\|_{\textup{LBW}(\Sigma^0)}\right ) \|z_1 - z_2 \|_{_{\textup{LBW}(\Sigma^0)}} \\
+\E^{\#}(z_1) - \underline{\E} \leq \tilde{c}_u\left(1 + \|z_1\|^2_{\textup{LBW}(\Sigma^0)} \right) \,,
+\end{dcases}
+\end{equation*}
+\item either $\sup\E^{\#}<+\infty$ or there exists $\tilde{M}, \tilde{c}_l$ such that for all $z$
+\[
+\E^\#(z) - \underline{\E} \geq \tilde{c}_l \| z \|^2_{\textup{LBW}(\Sigma^0)} \qquad \textup{for}\quad \|z\|_{\textup{LBW}(\Sigma^0)} \geq \tilde{R}\,,
+\]
+\end{enumerate}
+see Assumption 3.1, Theorem 3.1, and Theorem 3.2 in \cite{carrillo2021consensus}. Condition i) is equivalent to what we have assumed in Assumption \ref{asm:mf}. 
+We note that condition ii) is a small modification of \cite{carrillo2021consensus}, Assumption 3.1, where  the Lipschitz constant takes the form $(\|z_1\| + \|z_2\|)$, but
+this change does have an impact on the proof. Also, the quadratic upper bound follows from the local Lipschitz assumption. Altogether, thanks to the equivalence between the LBW norm and the second moment $M_2(\mu)$ for the corresponding measure $\mu$ (see \eqref{eq:moments}), then condition ii) follows form the locally Lipschitz condition \eqref{asm:lip} on $\E$. For the same reason, also the quadratic lower bound iii) for $\E^\#$ is equivalent (up to constants) to the quadratic lower bound \eqref{eq:growth} in Assumption \ref{asm:mf} for $\E$.
+\end{proof}
+
+We now check more precisely under which condition $\mathcal{V}, \mathcal{W}$ grow quadratically at infinity as condition \eqref{eq:growth}, which appears in Assumption \ref{asm:mf}.
+Note that, since the regularized log-entropy  $\mathcal{U}_\ve$ is bounded, quadratic growth of  $\mathcal{V}$
+also implies quadratic growth of $\KL_\ve(\cdot |\mu^\targ)$ for $\mu^\targ \propto \exp(-V)$.
+
+
+\begin{lemma} \label{l:growth} The growth condition \eqref{eq:growth} is satisfied for the energies $\mathcal{V}, \mathcal{W}$ provided
+\begin{align*}
+V(x) - \inf V &\geq 2 c_l |x|^2   &\textup{for} \quad |x|> R\,, \\
+W(x,y) - \inf W&\geq 2 c'_l (|x|^2 + |y|^2)  &\textup{for} \quad |x|^2+|y|^2> R\,,
+\end{align*}
+for some constants $c_l, c'_l, R>0$ and $\inf V, \inf W > \infty$.
+\end{lemma}
+
+\begin{proof}
+Let  $\mu$ such that $M_2(\mu) \geq R/\sqrt{2} $, it holds
+\begin{align*}
+\int V(x)\mu(\d x) - \inf V &\geq 2c_l \int_{|x|>R} |x|^2\mu(\d x) + \int_{|x|\leq R}(V(x) - \inf V)\mu(\d x) \\
+& \geq 2c_l \int_{|x|>R}|x|^2\mu(\d x) \pm 2c_l \int_{|x|\leq R}|x|^2\mu(\d x) \\
+& \geq 2c_l\int|x|^2\mu(\d x) - 2c_l R^2 \\
+& \geq 2c_lM_2(\mu)^2 - c_l M_2(\mu)^2  = c_l M_2(\mu)^2
+\end{align*}
+where in the second line we used that $V(x) - \inf V \geq 0$. 
+
+For $\mathcal{W}$, note that, differently from $\mathcal{V}$, in general $\inf \mathcal{W} \neq \inf W$, and $\inf W \leq \inf \mathcal{W}$. Consider  
+\[M_2(\mu)\geq \max \{R/\sqrt{2}, \Delta \mathcal{W}/c'_l  \}\,,
+\qquad \textup{where}\quad
+ \Delta \mathcal{W} := \inf W - \inf \mathcal{W}\geq 0\,.\] 
+ Similar computations as above lead to the following
+\begin{align*}
+\int &W(x,y) \mu(\d x) \mu(\d y) - \inf \mathcal{W} 
+ = \int W(x,y) \mu(\d x) \mu(\d y) - \inf W - \Delta \mathcal{W} \\
+ & \geq 2 c'_l \iint_{|x|^2+|y|^2>R}(|x|^2 + |y|^2)\mu(\d x) \mu(\d y) \\
+ & \qquad + 2c'_l \iint_{|x|^2+|y|^2\leq R}(W(x,y)- \inf W)\mu(\d x) \mu(\d y) - \Delta \mathcal{W} \\
+ & \geq 2 c'_l \iint_{|x|^2+|y|^2>R}(|x|^2 + |y|^2)\mu(\d x) \mu(\d y) \pm 2c_l \iint_{|x|^2 + |y|^2\leq R}(|x|^2 + |y|^2)\mu(\d x) \mu(\d y) - \Delta \mathcal{W} \\
+ & \geq 4 c'_l M_2(\mu)^2 - 4c_lR^2 - \Delta \mathcal{W} \\
+ & \geq c'_l (4 -2 -1) M_2(\mu)^2 \\
+ &= \,c'_l M_2(\mu)^2\,.
+\end{align*}
+\end{proof}
+
+
+%%%%
+
+\subsection{Additional remarks on assumptions to Theorem \ref{t:convergence}} \label{app:proofs:convergence}
+
+In \cref{t:convergence}, we assume the energy function $\E$ we aim to minimize is differentiable with respect to the Gaussian parameters. We recall in the following when this holds for $\mathcal{V}, \mathcal{W}, \mathcal{U}$. In \cref{rmk:fornasier} we also discuss an alternative convergence proof for CBO-type dynamics proposed in \cite{fornasier2024consensusbased}.
+
+\paragraph{Differentiability of $\mathcal{V}$.}
+Let $\mu = \mathcal{N}(m, \Sigma)$, we have (see, for instance,  Appendix D in \cite{khan2023bayesian}) 
+\[\nabla_{m} \mathcal{V}(\mu) = \int \nabla V(x)\,\mu(\mathrm{d}x)\quad \textup{and} \quad \nabla^2_{m} \mathcal{V}(\mu) = \int \nabla^2 V(x)\,\mu(\mathrm{d}x)\,.\] 
+With respect to the covariance, \[\partial_{\Sigma_{ij}} \mathcal{V}(\mu) = c_{ij} \int \partial^2_{ij} V(x)\,\mu(\mathrm{d}x)\qquad \textup{with}\quad c_{ij} = \begin{cases}
+    1/2 & \textup{if} \;\; i \neq j \\
+    1 & \textup{otherwise}
+\end{cases}\] 
+and consequently $\partial^2_{\Sigma_{ij}\Sigma_{\ell k}} \mathcal{V}(\mu) = c_{ij}c_{\ell k} \int \partial^4_{ij\ell k} V(x)\,\mu(\mathrm{d}x)$.  
+Hence, if $V \in \mathcal{C}^4(\mathbb{R}^d)$ with bounded second- and fourth-order derivatives, then $\mathcal{V}$  satisfies the regularity assumptions in \cref{t:convergence}. 
+
+\paragraph{Differentiability of $\mathcal{W}$.}
+To compute the derivatives of $\mathcal{W}$, we view $\mu\otimes\mu$ as a Gaussian measure on $\mathbb{R}^d\times\mathbb{R}^d$ with mean $(m,m)$ and block–diagonal covariance $\mathrm{diag}(\Sigma,\Sigma)$, so we can re-use the computations done for $\mathcal{V}$ variable-wise. 
+Recall $\mathcal{W}(\mu)$ is defined in \eqref{eq:VW}, so we have
+\begin{align*}
+&\nabla_{m}\mathcal{W}(\mu)
+= \iint \big(\nabla_x W(x,y)+\nabla_y W(x,y)\big)\,\mu(\mathrm{d}x)\mu(\mathrm{d}y),
+\\
+&\nabla_{m}^2\mathcal{W}(\mu)
+= \iint \big(
+\nabla_{xx}^2 W(x,y)+\nabla_{yy}^2 W(x,y)+\nabla_{xy}^2 W(x,y)+\nabla_{yx}^2 W(x,y)
+\big)\,\mu(\mathrm{d}x)\mu(\mathrm{d}y).
+\end{align*}
+With respect to the covariance, we compute
+\[
+\partial_{\Sigma_{ij}} \mathcal{W}(\mu)
+= c_{ij}\iint \big(\partial^2_{x_i x_j} W(x,y)+\partial^2_{y_i y_j} W(x,y)\big)\,\mu(\mathrm{d}x)\mu(\mathrm{d}y),
+\]
+with $c_{ij}$ as before, and consequently
+\begin{multline*}
+\partial^2_{\Sigma_{ij}\Sigma_{\ell k}} \mathcal{W}(\mu)
+= c_{ij}c_{\ell k}\iint \Big(
+\partial^4_{x_i x_j x_\ell x_k} W(x,y)
++
+\partial^4_{y_i y_j y_\ell y_k} W(x,y) \\
++
+\partial^2_{x_i x_j}\partial^2_{y_\ell y_k} W(x,y)
++
+\partial^2_{y_i y_j}\partial^2_{x_\ell x_k} W(x,y)
+\Big)\,\mu(\mathrm{d}x)\mu(\mathrm{d}y).
+\end{multline*}
+
+\paragraph{Differentiability of $\mathcal{U}$.} We recall from completeness also the case of the log-entropy which we already discusses in \cref{sec:cbo}.
+
+The log-entropy functional $\mathcal U$ is invariant under translations of the mean, which implies that its gradient with respect to $m$ vanishes, i.e.\ $\nabla_m \mathcal U(\mu)=0$.  
+For covariance matrices $\Sigma\in\pd$, it is shown in Appendix A.1 of \citep{lambert2022variational} that
+\[
+\nabla_\Sigma \mathcal U(\mu) = -\tfrac12\,\Sigma^{-1}.
+\]
+Furthermore, letting $e_\ell$ denote the $\ell$-th canonical basis vector of $\mathbb R^d$, the derivative of the matrix inverse is given by (see \cite{giles2008matrix})
+\[
+\frac{\partial}{\partial \Sigma_{ij}} \Sigma^{-1}
+= -\,\Sigma^{-1} e_i e_j^\top \Sigma^{-1}.
+\]
+
+As a result, the boundedness assumptions on second-order derivatives required in \cref{t:convergence} are only valid as long as the covariance matrix remains uniformly positive definite, that is, within a region where $\Sigma \succ \varepsilon I$ for some $\varepsilon>0$.
+
+This condition can be enforced in practice by applying a smooth eigenvalue-clipping procedure to $\Sigma$, as described in \eqref{eq:clip}, which keeps the covariance in the admissible set and thereby guarantees convergence to global minimizers.
+
+
+
+\begin{remark} \label{rmk:fornasier}
+
+For CBO methods, a different type of convergence result was proposed \cite{fornasier2024consensusbased}. We discuss briefly the assumption considered there, and
+why their result is not directly applicable in our settings. The finite-dimensional objective function $\E^\#$ is not required to be differentiable but it requires to attain a unique global minimum $z^\star$ and to attain an inverse continuity assumption around $z^\star$, see Definition 3.5 in  \cite{fornasier2024consensusbased}. In particular, there must exists $\E_\infty, R_0, \eta>0, \nu \in(0,\infty)$ such that
+\[
+\|z - z^\star \|_{\textup{BW}(\Sigma^0)} \leq \frac1\eta \left( \E^\#(z) - \E^\#(z^\star)\right)^{\nu}
+\]
+if $\|z\|_{\textup{BW}(\Sigma^0)} \leq R_0$ and $\E^\#(z) > \E^\#(z^\star) + \E_\infty$ otherwise. In terms of the functional $\E$, this translates into the condition 
+\[
+\LW_{\mu^0}(\mu, \mu^\star) \leq  \frac1\eta \left( \E(\mu) - \E(\mu^\star)\right)^{\nu}\,,
+\]
+which is difficult to check.
+It is interesting to note that, for $\E = \KL(\cdot\, | \, \mu^\targ)$ and if the solution coincides both with the target and the reference measure,  $\mu^\star = \mu^\targ = \mu^0$, then the above condition is implied by the 
+Talagrand’s inequality \cite{otto2000talagrand} with constant $\lambda>0$:
+\[
+\W(\mu, \mu^\textup{targ}) \le \sqrt{\frac{2}{\lambda} \left( \KL(\mu \,|\, \mu^{\textup{targ}}) - \KL(\mu^{\textup{targ}} \,|\, \mu^{\textup{targ}}) \right)}\,.
+\]
+since $\KL(\mu^{\textup{targ}} \,|\, \mu^{\textup{targ}}) =0$.
+
+A natural question is whether Talagrand’s inequality implies the growth condition in the LOT geometry in the case $\mu^\star \neq \mu ^\targ \neq \mu^0$, \rev{but we leave it for future work. We note that} lower bounds of $\W$ in terms of $\LW$ have been studied in \rev{\cite{delalande2023stability,carlier2024stability,letrouit2025gluing}, with \cite{letrouit2025gluing}, in particular, covering the case the initial measure is log-concave, and so possibly Gaussian.}
+\end{remark}
+
+\section{Numerical experiments and implementational aspects }
+\label{app:num}
+
+We provide in this section more details regarding the implementational aspects of \cref{alg:gcbo}, and the experiments illustrated in \cref{sec:num}.
+
+\subsection{Construction of random tangent vectors in LBW} \label{app:random}
+For the Euler--Maruyama update \eqref{eq:cbonum} discretization of the particles dynamics, it is required to sample random normal vectors in the LBW space with base $\Sigma^0$. 
+
+Let $\Sigma^0 = I$ and $\{e_i\}_{i=1}^d$ be the canonical base of $\mathbb{R}^d$. As mentioned in \cref{sec:brown}, an orthonormal basis with respect to $\langle \cdot, \cdot \rangle_{I}$ is given by the matrices
+\[
+J_{ij} =
+\begin{cases}
+e_i e_i^\top & \textup{if} \;\; i = j,\\[4pt]
+\big(e_i e_j^\top + e_j e_i^\top\big)/\sqrt{2} & \textup{if} \;\; i < j \, .
+\end{cases}
+\]
+A standard normal vector $B \in \mathrm{Sym}$ according to this basis can be conveniently generated as
+\[
+B = \frac{\Xi + \Xi^\top}{2}
+\qquad \textup{with}\quad \Xi_{ij} \sim \mathcal{N}(0,1)\, .
+\]
+An orthonormal basis for $\Sigma^0 = I$ can be translated into an orthonormal basis for an arbitrary $\Sigma^0 \in \pd$. Let $\Sigma^0 = Q \Lambda Q^\top$ be its singular value decomposition with $\Lambda = \textup{diag}(\lambda_1,\dots,\lambda_d)$. An orthonormal basis for $\langle \cdot, \cdot \rangle_{\Sigma^0}$ is given by
+\[
+\tilde J_{ij} =
+\begin{cases}
+\dfrac{1}{\sqrt{\lambda_i}}\, Q J_{ii} Q^\top & \textup{if} \;\; i=j,\\[6pt]
+\dfrac{1}{\sqrt{\lambda_i + \lambda_j}}\, Q J_{ij} Q^\top & \textup{if} \;\; i<j \, .
+\end{cases}
+\]
+This can be checked by directly computing $\langle \tilde J_{ij}, \tilde J_{k\ell} \rangle_{\Sigma^0} = \operatorname{tr}(\tilde J_{ij}\Sigma^0 \tilde J_{k\ell})$. Analogously, a standard normal vector $\tilde B$ according to this basis can be constructed from a standard normal vector $B$ for the basis $\{J_{ij}\}_{i \leq j}$ by rescaling each entry:
+\[
+\tilde B_{ij} =
+\begin{cases}
+\dfrac{1}{\sqrt{\lambda_i}}\, B_{ii} & \textup{if} \;\; i=j,\\[6pt]
+\dfrac{1}{\sqrt{\lambda_i + \lambda_j}}\, B_{ij} & \textup{if} \;\; i<j,
+\end{cases}
+\qquad \text{and set } \tilde B_{ji} = \tilde B_{ij}.
+\]
+
+
+\subsection{Tests in $d = 2$} \label{app:num:2}
+
+Figure~\ref{fig:2d} shows the solutions computed by CBO and \rev{the baseline Bures--Wasserstein Gradient Flow (GF)} for a test instance where the target measure is bimodal (and hence not log-concave). The trajectory of the mean of the consensus point is plotted, as well as the final computed Gaussian, represented by an ellipse. Unlike \rev{gradient flows}, the CBO trajectory follows a stochastic path, with the consensus point exploring the search space before converging to its final location. This leads to a slower initial decay of the KL divergence, but CBO ultimately finds a better solution than GF, which becomes trapped in a sub-optimal mode.
+
+Figure \ref{fig:2dmany_main} in \cref{sec:num} illustrated the results when testing \rev{the gradient-based baselines (see \cref{app:baseline})} and CBO against 4 different target measure, A--D. We provide in \cref{table:tests} the detailed models parameters.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width = 0.9\linewidth]{fig_2d_bimodal}
+\caption{
+Comparison between one run of the CBO and \rev{BW} GF algorithms in approximating a bimodal target density (contour lines). For CBO, the final Gaussian consensus point is shown. Trajectories of the mean of the consensus point and of the GF dynamics are also included. On the right, the evolution of the objective $\E = \KL$ shows that CBO finds a better solution to the VI problem. Parameters: $\Delta t = 0.1, \lambda = 1, \sigma = 5, N = 20, \alpha = 10^4$. Reference measure for LBW geometry: $\mathcal{N}(0, I)$.}
+\label{fig:2d}
+\end{figure}
+
+
+\begin{table}[t]
+\caption{Gaussian mixture model parameters (means, covariances, and mixture weights) for targets A–D, see \eqref{eq:gmm}.}
+ \label{table:tests}
+\centering
+\resizebox{1\linewidth}{!}{
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Target & $K $ & means & covariances & weights \\ \hline
+A & 2 &
+\begin{tabular}[c]{@{}l@{}}$m_1 = (-2.2,\,0.0)$\\ $m_2 = ( 2.2,\,0.0)$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$\Sigma_1 =
+\begin{pmatrix}
+1 & 0.2\\
+0.2 & 0.6
+\end{pmatrix}\;\;
+\Sigma_2 =
+\begin{pmatrix}
+1 & -0.2\\
+-0.2 & 0.6
+\end{pmatrix}$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$w_1=0.5$\\
+$w_2=0.5$
+\end{tabular}\\ \hline
+B & 2 &
+\begin{tabular}[c]{@{}l@{}}$m_1 = (-1.77,\,1.06)$\\ $m_2 = (-0.35,\,-0.35)$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$\Sigma_1 =
+\begin{pmatrix}
+1.25 & -0.25\\
+-0.25 & 1.25
+\end{pmatrix}\;\;
+\Sigma_2 =
+\begin{pmatrix}
+2.50 & -1.50\\
+-1.50 & 2.50
+\end{pmatrix}$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$w_1=0.5$\\
+$w_2=0.5$
+\end{tabular} \\ \hline
+C & 4 &
+\begin{tabular}[c]{@{}l@{}}$m_1 = (-2.47,\,1.06)$\\ $m_2 = (-1.48,\,0.64)$\\ $m_3 = (-2.05,\,0.07)$\\ $m_4 = (0.20,\,-1.61)$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$\Sigma_1 =
+\begin{pmatrix}
+0.45 & 0\\
+0 & 0.45
+\end{pmatrix}\;\;
+\Sigma_2 =
+\begin{pmatrix}
+1.9 & -1.9\\
+-1.9 & 2.3
+\end{pmatrix}$\\[6pt]
+$\Sigma_3 =
+\begin{pmatrix}
+2.3 & -1.9\\
+-1.9 & 1.9
+\end{pmatrix}\;\;
+\Sigma_4 =
+\begin{pmatrix}
+2.51 & -2.49\\
+-2.49 & 2.51
+\end{pmatrix}$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$w_1=0.25$\\
+$w_2=0.30$\\ 
+$w_3=0.30$\\
+$w_4=0.15$\end{tabular} \\ \hline
+D & 4 &
+\begin{tabular}[c]{@{}l@{}}$m_1 = (-1.5,\,-2.0)$\\ $m_2 = (1.5,\,0.7)$\\ $m_3 = (-1.5,\,0.7)$\\ $m_4 = (1.5,\,-2.0)$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$\Sigma_1 = \Sigma_2 = \Sigma_3 = \Sigma_4 =
+\begin{pmatrix}
+0.7 & 0\\
+0 & 0.5
+\end{pmatrix}$
+\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$w_1=0.2$\\$w_2=0.2$\\ $w_3=0.2$\\
+$w_4=0.4$\end{tabular} \\ \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+%\renewcommand\thesubfigure{\Alph{subfigure}} % uppercase (A), (B), ...
+%\begin{figure*}
+%\centering
+%\begin{subfigure}[t]{0.45\linewidth}
+%\includegraphics[width = 1\linewidth]{fig_2D_A}
+%\caption{bi-modal}
+%\label{fig:A}
+%\end{subfigure} 
+%\begin{subfigure}[t]{0.45\linewidth}
+%\includegraphics[width = 1\linewidth]{fig_2D_B}
+%\caption{uni-modal}
+%\label{fig:B}
+%\end{subfigure}
+%
+%\bigskip
+%\begin{subfigure}[t]{0.45\linewidth}
+%\includegraphics[width = 1\linewidth]{fig_2D_C}
+%\caption{uni-modal, skewed}
+%\label{fig:C}
+%\end{subfigure} 
+%\begin{subfigure}[t]{0.45\linewidth}
+%\includegraphics[width = 1\linewidth]{fig_2D_D}
+%\caption{4-modal}
+%\label{fig:D}
+%\end{subfigure}
+%
+%\caption{Comparison between CBO and GF algorithms in approximating different target densities given by Gaussian mixture models with 2 components (A, B) and 4 components (C, D) (see Table \ref{table:tests}). The 2D plots show the computed solutions for a single run, while the KL evolution is averaged over 100 runs with different random initializations. Median and $[0.25, 0.75]$ interquartile ranges are shown. Parameters: $\Delta t = 0.1$ (except for C, where $\Delta t = 0.05$), $\lambda = 1, \sigma = 5, N = 20, \alpha = 10^4$. Reference measure for LBW geometry: $\mathcal{N}(0, I)$.}
+%\label{fig:2dmany}
+%\end{figure*}
+
+\paragraph{Sensitivity analysis.} In CBO algorithms, the diffusion parameter $\sigma$ is crucial for balancing particle exploration of the search space with the emergence of consensus. Small values of $\sigma$ may lead to premature convergence, while large values can prevent convergence altogether. Values $\sigma \in [3,5]$ yield the best performance across all test problems considered (see Figure~\ref{fig:sigma}).
+
+
+The number of particles $N$ is also an important choice, as it determines the trade-off between computational accuracy and efficiency. In the tests considered, however, there is little improvement beyond $N = 16$ particles, as shown in Figure \ref{fig:N}.
+
+We also test the impact on the linearization procedure. So far  we have kept the base measure for the LBW geometry to be the standard normal distribution  $\mathcal{N}(0,I)$, that is, $\Sigma^0 = I$. To mitigate the (eventual) loss in geometry information, it is natural to think of updating the reference measure during the computation, from time to time, to linearize the space around the current consensus point. We tested this strategy for different update frequencies $\Delta t_\textup{up}>0$, from the smallest one possible, $\Delta t_\textup{up} = \Delta t = 0.1$ to no update at all $\Delta t_\textup{up} = 12.8> T_{\max{}} = 10$.
+As we can noticed from the results of the experiments, see Figure \ref{fig:base}, in the problem considered there is no benefit in updating the base measure. For the target measure C, the update strategy actually deteriorates the algorithm's accuracy. We conjecture this may be due to the numerical error introduced by frequently computing the logarithmic and exponential BW maps.
+
+%%%%%%%
+%%% COMPARISON sigma, N
+
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.48\linewidth}
+\includegraphics[width = 1\linewidth]{fig_sigma}
+\caption{Impact of diffusion parameter $\sigma$}
+\label{fig:sigma}
+\end{subfigure} \hfill
+\begin{subfigure}[t]{0.48\linewidth}
+\includegraphics[width = 1\linewidth]{fig_N}
+\caption{Impact of number of particles $N$}
+\label{fig:N}
+\end{subfigure}
+\bigskip
+
+\begin{subfigure}[t]{0.48\linewidth}
+\includegraphics[width = 1\linewidth]{fig_baseupdate}
+\caption{Impact of update reference measures}
+\label{fig:base}
+\end{subfigure}
+\caption{Sensitivity analysis of CBO performance with respect to (A) the diffusion parameter $\sigma$, (B) the number of particles $N$, (C) update frequency of the reference measure $\mathcal{\mu}_0  = \mathcal{N}(0,\Sigma^0)$.  
+The curves show the median KL divergence averaged across 100 runs with different random initializations. 
+Same parameters as experiment in Figure \ref{fig:2dmany_main}.}
+\label{fig:sensisitivity}
+\end{figure}
+
+
+
+%%%%%%%
+%%% HD, d = 10
+\subsection{Tests in $d = 10$}
+\label{app:num:10}
+
+
+
+We provide here more details regarding the experiments in $d = 10$ 
+described in \cref{sec:num} and \cref{fig:d10}.
+
+Each target distribution is a randomly generated $K$-component Gaussian mixture model: mixture weights are sampled from a Dirichlet distribution, component means are sampled uniformly on the sphere of radius $R_{\textup{mean}}\sqrt{d}$ (so that components are well separated in high dimension, with $R_{\textup{mean}}$ controlling the spread), and component covariances are random SPD matrices with eigenvalues in $[\lambda_{\min},\lambda_{\max}]$. 
+
+We set $d=10$, $K=5$, $R_{\textup{mean}}=3.0$, $\lambda_{\min}=0.4$, and $\lambda_{\max}=2.0$. 
+Both methods are initialized from a Gaussian centered at a random point near the origin with covariance equal to the identity, and we run them for a horizon $T=75$ with step size $\Delta t = 0.1$. 
+For CBO we employ $N=100$ particles with parameters $\alpha=10^4$, $\sigma=2.5$, $\lambda=1.0$, and we do not update the base. 
+
+To compare \rev{CBO with the different baseline} methods robustly, we generate $M=20$ independent random GMM instances and record the evolution of $\mathrm{KL}(\mu\,|\,\mu^\targ)$ for each method. 
+Since absolute KL values vary between instances, each trajectory is normalized by the best KL value achieved on that instance, 
+\[
+\mathrm{RelKL}_i(t) \;=\; \frac{\mathrm{KL}_i(t)}{K_i^\star}, \quad 
+K_i^\star = \min_{t,m} \mathrm{KL}_i^m(t),
+\]
+where $i$ indexes the instance and $m \in \rev{\{\textup{CBO}, \textup{BW},\textup{SVGD},\textup{FR}\}}$ the method. 
+We then report the relative KL, $\mathrm{RelKL}_i(t)$, aggregated across instances by plotting the median together with the interquartile range $[0.25, 0.75]$. 
+
+\paragraph{Results.} 
+From Figure~\ref{fig:d10}, we notice that the interquantile range of CBO is smaller than that of \rev{BW and FR}. We conjecture that \rev{BW and FR} may sometimes get stuck in local minima, while CBO computes more robust solutions across different instances of the problem thanks to the particle exploration. On average, \rev{though, the Gaussian SVGD} algorithm computes better solutions than \rev{CBO and other baselines} for this class of problems.
+
+\begin{remark}
+We note that extensions of particle-based optimizers to very high dimensions typically require additional heuristics to keep the computational cost manageable. 
+For instance, in \cite{carrillo2021consensus} a random batch technique for the computation of the consensus point was proposed to reduce the number of function evaluations per step. 
+Another delicate aspect is the choice of the diffusion parameter $\sigma$. 
+As noted in Section~4.3 of \cite{borghi2023constrained}, the interval of values of $\sigma$ leading to good performance tends to shrink as $d$ increases, and particles become more prone either to converge prematurely or to diverge. 
+To tackle high-dimensional machine learning problems, in \cite{carrillo2021consensus} the authors also propose a heuristic in which a relatively small $\sigma$ is used, but particles are re-initialized with white noise at the end of each training epoch. 
+Such strategies may also be applied in our context to address high-dimensional Gaussian VI problems.
+\end{remark}
+
+
+\rev{\subsection{Details on baseline methods}
+\label{app:baseline}
+
+In the experiments, we compared the proposed CBO methods with different algorithms for optimization over the space of Gaussian measures. They are single-trajectory algorithms which do not employ a set of Gaussian particles, but a single one. We considered the Bures--Wasserstein (BW) gradient flow \cite{lambert2022variational}, the Gaussian Stein Variational Gradient Descent (SVGD) \cite{liu2023towards}, and the natural, or Fisher--Rao (FR) gradient flow \cite{barfoot2020multivariate,liero2025evolution}. They all aim to minimize $\KL(\mu\,|\,\mu^\targ)$ and are discretized via an explicit Euler scheme and same quadrature approximation for expected values as for CBO. 
+
+For completeness, we recall here the corresponding ODEs for the mean and covariance matrix $(m_t,\Sigma_t)\in \mathbb{R}^d\times\psd$. In the following, $X_t$ is a random variable with law $\mathcal{N}(m_t,\Sigma_t)$. The objective energy to be minimized is the Kullback--Leibler divergence $\KL(\,\cdot\,\vert\,\mu^\targ)$, where $\mu^\targ \propto e^{-V}$ for some potential $V\in\mathcal{C}^2(\mathbb{R}^d)$.
+
+\begin{itemize}
+\item 
+The Bures--Wasserstein Gradient Flow (BW/GF) has been studied in \cite{lambert2022variational}, and reads
+\begin{equation}
+\begin{dcases} \dot{m}_t &=  - \mathbb{E}\nabla V(X_t) \\  \dot{\Sigma}_t &= 2I_d - \mathbb{E}\!\left[\nabla V(X_t)\otimes (X_t-m_t) + (X_t-m_t)\otimes \nabla V(X_t)\right]\, .
+\end{dcases}
+\end{equation}
+
+\item 
+Gaussian Stein Variational Gradient Descent (SVGD) with kernel $ K_1(x,y)=x^\top y+1 $
+induces the Gaussian evolution \cite{liu2023towards}
+\begin{equation}
+\begin{dcases}
+\dot{m}_t
+&=
+\left(I_d-\mathbb{E}\nabla^2V(X_t)\,\Sigma_t\right)m_t
+-
+\left(1+\lvert m_t\rvert^2\right)\,\mathbb{E}\nabla V(X_t) \\ 
+\dot{\Sigma}_t
+& =
+G_t\Sigma_t+\Sigma_t G_t^\top, \qquad \textup{where}\quad G_t
+:=
+I_d-\mathbb{E}\nabla^2V(X_t)\,\Sigma_t\,.
+\end{dcases}
+\end{equation}
+\item 
+
+Natural, or Fisher--Rao (FR), gradient flow \cite{barfoot2020multivariate,liero2025evolution} is given by
+\begin{equation}
+\begin{dcases}
+\dot{m}_t &= -\Sigma_t\,\mathbb{E}\nabla V(X_t),\\
+\dot{\Sigma}_t &= G_t\Sigma_t+\Sigma_t G_t^\top,
+\qquad \textup{where} \qquad G_t
+:=
+\frac12\left(I_d-\Sigma_t\,\mathbb{E}\nabla^2V(X_t)\right)\, .
+\end{dcases}
+\end{equation}
+\end{itemize}
+}
+
+
+\rev{
+\section{Extension to GMM via multi-swarm approach}
+\label{app:gmm}
+
+One may wonder whether the algorithm can be extended to optimize over the richer class of Gaussian Mixture Models (GMMs) as done in \cite{lambert2022variational} where many Gaussian particles are used to approximate the BW gradient flow. To do so, we propose a multi-swarm dynamics, inspired by particle systems for multi-objective optimization \cite{klamroth2024consensus,borghi2023adaptive}.
+
+\paragraph{Swarms' dynamics.}  The full particle system is divided in $n_\swarm$ sub-swarms, and a Gaussian CBO dynamics, analogous to single-swarm algorithm, is prescribed within the sub-swarm. The only difference lays on the definition of the objective function, which is different for every swarm. Let $\overline{\mu}^{\alpha,\ell}$, $\ell = 1,\dots, n_{\swarm}$ be the swarm's barycenters, the objective function of the $\ell$-th swarm is given by
+\begin{equation*} \label{eq:locKL} \mathcal{E}^\ell(\nu) := \KL \Bigg( \frac1{n_\swarm}\nu + \frac1{n_\swarm-1}\sum_{ h \neq \ell} \overline{\mu}^{\alpha, h} \; \Bigg |\; \mu^\targ \Bigg)\,.
+\end{equation*}
+Intuitively, the  $\ell$-th swarm should find the best Gaussian measure $\nu$ that, when summed up with the other swarm's barycenters  $\overline{\mu}^{\alpha, h}$, $h\neq \ell$, provides the best match with respect to the given target $\mu^\targ$.
+Note that, to define the barycenters one needs the objective function $\mathcal{E}^\ell$, which, in turns, requires knowledge of the barycenters, so the definition appears to be ill-posed. In practice, the algorithm starts from unweighted barycenters at step $k =1$ to define the swarms' objective functions at $k = 1$, and then the objects can be defined recursively. The precise algorithmic strategy is described in Algorithm \ref{alg:swarms} and a validation test is presented in Figure \ref{fig:2d_multi}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width = 0.495\linewidth]{fig_2D_multiswarm_convex}
+\includegraphics[width = 0.495\linewidth]{fig_2D_multiswarm_nonconvex}
+\caption{\textbf{Extension to GMM via multi-swarm approach.}
+Validation of the multi-swarm CBO approach and comparison with the GMM approximation of the Wasserstein Gradient Flow proposed in \cite{lambert2022variational}. In the multi-swarm strategy, the particles are divided into $n_S=4$ swarms, each with $N=10$ Gaussian particles; each swarm evolves by an internal Gaussian CBO dynamics while its objective depends on the barycenters of the other swarms, thereby encouraging the swarms to cover different regions of the target. For the GF, we use $N=10$ particles. The left plots correspond to an initialization close to the modes of the target measure, while the right plots correspond to an initialization far from the modes.
+Parameters used are the same as $d = 2$ single-swarm experiments. The tests show that CBO-type dynamics is able to find better or comparable approximations of the target measure in terms of KL divergence (see final KL values in the plots' titles). }
+\label{fig:2d_multi}
+\end{figure}
+
+\begin{algorithm}[h]
+  \caption{Multi-swarm Gaussian Consensus-Based Optimization}
+  \label{alg:swarms}
+  \begin{algorithmic}
+    \STATE {\bfseries Input:} Target $\mu^\targ$, reference $\mu^0 = \mathcal{N}(0,\Sigma^0)$
+    \STATE \hspace{10mm} parameters $\lambda = 1, \sigma,\Delta t >0, \alpha \gg 1$, number of swarms $n_\swarm \in \mathbb{N}$, swarm size $N \in \mathbb{N}$ 
+    \STATE Initialize particles $(m^{\ell,i},T^{\ell,i}) \in \Rd \times \sym$, $i \in [N]$, $\ell \in [n_\swarm]$
+    \STATE For each swarm $\ell$, compute the initial unweighted barycenter $\overline{\mu}^{0,\ell}$
+    \REPEAT
+    \FOR{$\ell = 1$ {\bfseries to} $n_\swarm$}
+      \STATE Define the swarm-dependent objective \eqref{eq:locKL}
+      \STATE Evaluate $\mathcal{E}^\ell(\mu^{\ell,i})$ with $\mu^{\ell,i} = \mathcal{N}(m^{\ell,i}, \exp_{\Sigma^0}(T^{\ell,i}))$
+      \STATE Set swarm weights $\omega^{\ell,i} \propto \exp(-\alpha \mathcal{E}^\ell(\mu^{\ell,i}))$
+      \STATE Compute swarm consensus $(\overline{m}^{\alpha,\ell},\overline{T}^{\alpha,\ell})$ with $\{\omega^{\ell,i}\}_{i=1}^{N}$
+      \STATE Set $\overline{\mu}^{\alpha,\ell} = \mathcal{N}(\overline{m}^{\alpha,\ell}, \exp_{\Sigma^0}(\overline{T}^{\alpha,\ell}))$
+    \ENDFOR
+    \FOR{$\ell = 1$ {\bfseries to} $n_\swarm$}
+      \FOR{$i=1$ {\bfseries to} $N$}
+        %\STATE Sample random normal vectors $(B^{\ell,i,m}, B^{\ell,i,T})$
+        \STATE Update particle $(m^{\ell,i},T^{\ell,i})$ as in single-swarm algorithm using swarm consensus $(\overline{m}^{\alpha,\ell},\overline{T}^{\alpha,\ell})$
+      \ENDFOR
+    \ENDFOR
+    \UNTIL{convergence reached}
+    \STATE {\bfseries Output:} Mixture approximation
+    $
+    \overline{\mu}^{\alpha}
+    =
+(1/{n_\swarm})\sum_{\ell=1}^{n_\swarm}\overline{\mu}^{\alpha,\ell}
+    $
+  \end{algorithmic}
+\end{algorithm}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+% This document was modified from the file originally made available by
+% Pat Langley and Andrea Danyluk for ICML-2K. This version was created
+% by Iain Murray in 2018, and modified by Alexandre Bouchard in
+% 2019 and 2021 and by Csaba Szepesvari, Gang Niu and Sivan Sabato in 2022.
+% Modified again in 2023 and 2024 by Sivan Sabato and Jonathan Scarlett.
+% Previous contributors include Dan Roy, Lise Getoor and Tobias
+% Scheffer, which was slightly modified from the 2010 version by
+% Thorsten Joachims & Johannes Fuernkranz, slightly modified from the
+% 2009 version by Kiri Wagstaff and Sam Roweis's 2008 version, which is
+% slightly modified from Prasad Tadepalli's 2007 version which is a
+% lightly changed version of the previous year's version by Andrew
+% Moore, which was in turn edited from those of Kristian Kersting and
+% Codrina Lauth. Alex Smola contributed to the algorithmic style files.

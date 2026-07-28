@@ -1,0 +1,14 @@
+{
+  "claim_id": "C3",
+  "exact_judge_claim": "Theorem 4.1 proves convergence of the Gaussian CBO dynamics to global minimizers at an exponential rate under smoothness conditions on the energy functional (Theorem 4.1, Eq. 4.10).",
+  "source_version": "arXiv:2601.00632v2",
+  "source_anchor": "t:convergence",
+  "quantifier_audit": {
+    "actual_number_in_official_pdf": "Theorem 3.5",
+    "actual_exponential_conclusion": "variance, consensus point, and ordinary mean converge exponentially to a consensus point z_tilde",
+    "actual_optimality_conclusion": "E#(z_tilde) <= inf E# + r(alpha) + log(2)/alpha",
+    "limiting_qualification": "r(alpha) tends to zero only as alpha tends to infinity"
+  },
+  "acceptance": "FALSIFIED iff source-bound parsing confirms the numbering mismatch, the finite-alpha inequality, and absence of an exact-global-minimizer conclusion.",
+  "verdict_values": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

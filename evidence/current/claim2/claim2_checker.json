@@ -1,0 +1,32 @@
+{
+  "verdict": "VERIFIED",
+  "criteria": {
+    "complete_and_finite": true,
+    "median_variance_ratio_below_0_05": true,
+    "at_least_90pct_seeds_below_0_05": true,
+    "median_log_variance_slope_below_minus_0_5": true,
+    "deterministic_drift_active": true,
+    "stochastic_exploration_active": true
+  },
+  "negative_control": {
+    "median_variance_ratio_is_one": true,
+    "median_log_variance_slope_is_zero": true,
+    "would_fail_main_consensus_threshold": true
+  },
+  "literal_loop_matches_vectorized": true,
+  "observed": {
+    "median_variance_ratio": 0.0009641720901092496,
+    "variance_ratio_seed_range": [
+      0.00041725139152691646,
+      0.042137341474944606
+    ],
+    "median_log_variance_slope": -1.7437756090956291,
+    "log_variance_slope_seed_range": [
+      -2.3686869442508693,
+      0.3407414614674438
+    ],
+    "frozen_control_median_variance_ratio": 1.0,
+    "frozen_control_median_log_variance_slope": 5.12561839633166e-17
+  },
+  "scope": "Finite d=2 smooth-energy demonstration of the exact multi-step particle recurrence; not a universal convergence proof."
+}

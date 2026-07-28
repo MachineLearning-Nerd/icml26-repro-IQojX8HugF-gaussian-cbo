@@ -1,0 +1,16 @@
+{
+  "claim": "Theorem 4.1 proves convergence of the Gaussian CBO dynamics to global minimizers at an exponential rate.",
+  "verdict": "FALSIFIED",
+  "basis": "The official v2 TeX numbers the result Theorem 3.5. It proves exponential consensus/variance decay, but gives only a finite-alpha upper bound on the limit energy; exact global optimality appears only in the alpha->infinity limit.",
+  "checks": {
+    "official_tex_numbers_result_theorem_3_5": true,
+    "variance_converges_exponentially": true,
+    "consensus_point_converges_exponentially": true,
+    "finite_alpha_conclusion_is_inequality": true,
+    "residual_only_vanishes_as_alpha_tends_to_infinity": true,
+    "does_not_state_exact_global_minimizer": true
+  },
+  "actual_number": "Theorem 3.5",
+  "source_sha256": "6b35ec4859cc23bac62bec4a20c6a9d59e1c360a9cf44a1ba1b68b96042b09b1",
+  "scope": "Falsification of the exact theorem attribution, not a counterexample to the corrected theorem."
+}

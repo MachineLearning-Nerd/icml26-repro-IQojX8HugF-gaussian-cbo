@@ -1,0 +1,8 @@
+{
+  "verdict": "VERIFIED",
+  "checks": {
+    "120_instances": true,
+    "weighted_average_error_below_1e_10": true,
+    "roundtrip_error_below_1e_10": true
+  }
+}

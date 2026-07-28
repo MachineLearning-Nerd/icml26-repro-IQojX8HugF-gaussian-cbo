@@ -1,0 +1,82 @@
+{
+  "claim": "C2",
+  "paper_config": {
+    "name": "paper_dynamics",
+    "particles": 40,
+    "steps": 400,
+    "dt": 0.01,
+    "alpha": 20.0,
+    "lmbda": 1.0,
+    "sigma": 0.7,
+    "initial_mean_scale": 1.2,
+    "initial_tangent_scale": 0.18,
+    "apply_update": true
+  },
+  "negative_control_config": {
+    "name": "frozen_update_control",
+    "particles": 40,
+    "steps": 400,
+    "dt": 0.01,
+    "alpha": 20.0,
+    "lmbda": 1.0,
+    "sigma": 0.7,
+    "initial_mean_scale": 1.2,
+    "initial_tangent_scale": 0.18,
+    "apply_update": false
+  },
+  "seeds": [
+    260100,
+    260101,
+    260102,
+    260103,
+    260104,
+    260105,
+    260106,
+    260107,
+    260108,
+    260109,
+    260110,
+    260111,
+    260112,
+    260113,
+    260114,
+    260115,
+    260116,
+    260117,
+    260118,
+    260119,
+    260120,
+    260121,
+    260122,
+    260123
+  ],
+  "literal_loop_max_error": 0.0,
+  "paper_dynamics": {
+    "median_final_to_initial_variance": 0.0009641720901092496,
+    "bootstrap_95_ci": [
+      0.0007690647325796739,
+      0.001507091339495395
+    ],
+    "fraction_below_0_05": 1.0
+  },
+  "frozen_update_control": {
+    "median_final_to_initial_variance": 1.0,
+    "bootstrap_95_ci": [
+      1.0,
+      1.0
+    ],
+    "fraction_below_0_05": 0.0
+  },
+  "compute": {
+    "backend": "recorded_by_orx",
+    "estimated_cores": 1,
+    "thread_limit": 1,
+    "visible_logical_cpus": 8,
+    "python": "3.12.11",
+    "runtime_seconds": 1.0088779579964466
+  },
+  "raw_files": {
+    ".openresearch/artifacts/claim2/generated/claim2_trajectory.csv": "a239a8671d3fdb997a2236b51efe6254987391f9b7ab377802f3f56996e8b945",
+    ".openresearch/artifacts/claim2/generated/claim2_particle_snapshots.csv": "1fd5de456d293d1a808610b4c44cf9e7fe0fe41c27a75293386486adf56f8aba"
+  }
+}
