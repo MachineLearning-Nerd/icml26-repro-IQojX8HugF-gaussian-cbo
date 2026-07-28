@@ -38,6 +38,7 @@ class Config:
     sigma: float = 0.7
     initial_mean_scale: float = 1.2
     initial_tangent_scale: float = 0.18
+    apply_update: bool = True
 
 
 def energy(states: np.ndarray) -> np.ndarray:
@@ -154,8 +155,8 @@ def run_variant(
             if step == config.steps:
                 final_ratios.append(row_metrics["variance"] / initial_variance)
                 break
-            vectorized = states + drift + noise
-            if seed == SEEDS[0] and step == 0:
+            vectorized = states + drift + noise if config.apply_update else states.copy()
+            if config.apply_update and seed == SEEDS[0] and step == 0:
                 literal = literal_step(states, consensus, gaussian, config)
                 max_literal_error = float(np.max(np.abs(vectorized - literal)))
             states = vectorized
@@ -182,7 +183,7 @@ def main() -> None:
     started = time.perf_counter()
     OUT.mkdir(parents=True, exist_ok=True)
     main_config = Config(name="paper_dynamics")
-    control_config = Config(name="noise_dominated_control", sigma=2.0)
+    control_config = Config(name="frozen_update_control", apply_update=False)
     metrics_path = OUT / "claim2_trajectory.csv"
     snapshots_path = OUT / "claim2_particle_snapshots.csv"
     fields = [
@@ -233,7 +234,7 @@ def main() -> None:
             "bootstrap_95_ci": bootstrap_ci(main_ratios),
             "fraction_below_0_05": float(np.mean(np.asarray(main_ratios) < 0.05)),
         },
-        "noise_dominated_control": {
+        "frozen_update_control": {
             "median_final_to_initial_variance": float(np.median(control_ratios)),
             "bootstrap_95_ci": bootstrap_ci(control_ratios, seed=260100633),
             "fraction_below_0_05": float(np.mean(np.asarray(control_ratios) < 0.05)),

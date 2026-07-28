@@ -13,8 +13,14 @@ particle snapshots per seed are retained separately. A particle-by-particle
 loop is compared with the vectorized update using the same Gaussian
 increments.
 
-The negative control changes only the diffusion scale from `0.7` to `2.0`.
-This crosses the standard consensus boundary `sigma^2 < 2 lambda`; it should
-increase rather than contract ensemble variance. The independent checker reads
-only raw CSV/JSON files and exits nonzero unless both the positive criteria and
-the intended control failure hold.
+The negative control is a deliberately corrupted implementation with the
+particle update omitted while all inputs, seeds, weights, drift, and noise are
+still computed. Its particle variance must remain exactly unchanged, and it
+must fail the main consensus threshold. This tests that the independent
+checker cannot pass merely because the input ensemble or energy is convenient.
+The checker reads only raw CSV/JSON files and exits nonzero unless both the
+positive criteria and the intended control failure hold.
+
+An earlier `sigma=2` control was rejected after its typical paths still
+contracted. That is expected for multiplicative geometric noise even when a
+second moment can grow; it was not a valid median-trajectory control.

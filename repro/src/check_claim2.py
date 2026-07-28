@@ -39,7 +39,7 @@ def log_slopes(seed_rows: dict[int, dict[int, dict[str, float]]]) -> list[float]
 
 def main() -> None:
     data = load_endpoints()
-    required_variants = {"paper_dynamics", "noise_dominated_control"}
+    required_variants = {"paper_dynamics", "frozen_update_control"}
     if set(data) != required_variants:
         raise SystemExit(f"expected variants {required_variants}, found {set(data)}")
     expected_seeds = set(range(260100, 260124))
@@ -54,11 +54,11 @@ def main() -> None:
     control_ratios = np.asarray(
         [
             steps[400]["variance"] / steps[0]["variance"]
-            for steps in data["noise_dominated_control"].values()
+            for steps in data["frozen_update_control"].values()
         ]
     )
     main_slopes = np.asarray(log_slopes(data["paper_dynamics"]))
-    control_slopes = np.asarray(log_slopes(data["noise_dominated_control"]))
+    control_slopes = np.asarray(log_slopes(data["frozen_update_control"]))
     main_noise = [
         row["noise_rms"]
         for steps in data["paper_dynamics"].values()
@@ -87,8 +87,8 @@ def main() -> None:
         "stochastic_exploration_active": bool(np.max(main_noise) > 0),
     }
     control = {
-        "median_variance_ratio_above_1": bool(np.median(control_ratios) > 1.0),
-        "median_log_variance_slope_positive": bool(np.median(control_slopes) > 0),
+        "median_variance_ratio_is_one": bool(abs(np.median(control_ratios) - 1.0) < 1e-12),
+        "median_log_variance_slope_is_zero": bool(abs(np.median(control_slopes)) < 1e-12),
         "would_fail_main_consensus_threshold": bool(not (np.median(control_ratios) < 0.05)),
     }
     summary = json.loads((OUT / "claim2_summary.json").read_text(encoding="utf-8"))
@@ -103,8 +103,8 @@ def main() -> None:
             "variance_ratio_seed_range": [float(np.min(main_ratios)), float(np.max(main_ratios))],
             "median_log_variance_slope": float(np.median(main_slopes)),
             "log_variance_slope_seed_range": [float(np.min(main_slopes)), float(np.max(main_slopes))],
-            "control_median_variance_ratio": float(np.median(control_ratios)),
-            "control_median_log_variance_slope": float(np.median(control_slopes)),
+            "frozen_control_median_variance_ratio": float(np.median(control_ratios)),
+            "frozen_control_median_log_variance_slope": float(np.median(control_slopes)),
         },
         "scope": "Finite d=2 smooth-energy demonstration of the exact multi-step particle recurrence; not a universal convergence proof.",
     }
