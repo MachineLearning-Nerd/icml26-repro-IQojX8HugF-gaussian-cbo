@@ -1,0 +1,17 @@
+{
+  "config": {
+    "name": "frozen_update_control",
+    "particles": 40,
+    "steps": 400,
+    "dt": 0.01,
+    "alpha": 20.0,
+    "lmbda": 1.0,
+    "sigma": 0.7,
+    "initial_mean_scale": 1.2,
+    "initial_tangent_scale": 0.18,
+    "apply_update": false
+  },
+  "median_variance_ratio_is_one": true,
+  "median_log_variance_slope_is_zero": true,
+  "would_fail_main_consensus_threshold": true
+}
