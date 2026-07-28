@@ -123,13 +123,15 @@ single favorable trajectory.
 | C6 | extended map stays PSD | quadratic-form identity; 120-case minimum eigenvalue `0.001289` | VERIFIED |
 
 All formal nodes inherit the exact command
-`uv run python repro/src/verify.py` and the same `uv.lock`. The successful
-cumulative run took 3.667 seconds on local CPU with one thread; no GPU was
+`uv run python repro/src/verify.py` and the same `uv.lock`. The final
+evaluator-visible cumulative run took 6.165 seconds on local CPU with one
+thread; no GPU was
 used. The baseline and experiments are available on the
 [`orx/validated-7-of-12-baseline`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/validated-7-of-12-baseline),
 [`orx/c2-multi-step-gaussian-cbo-dynamics`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/c2-multi-step-gaussian-cbo-dynamics),
 and [`orx/c3-c4-exact-source-contracts`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/c3-c4-exact-source-contracts)
-branches.
+branches. The additive packaging is on
+[`orx/evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/tree/orx/evaluator-visible-cumulative-release).
 
 The current live score remains 7/12 until a new Hugging Face revision is judged.
 A conservative forecast is 9–12/12; 12/12 is the best-supported possible

@@ -23,8 +23,10 @@ symmetric tangents. Its minimum observed covariance eigenvalue was
 Run `uv run python repro/src/verify.py`. Inspect
 [verify_geometry.py](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim6/verify_geometry.py)
 and [raw output](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim6/independent_geometry.json).
-The independent checker also constructs `T=diag(-1,0)`, obtaining an exact zero
-eigenvalue, and rejects a negative-eigenvalue mutation as its control.
+The [independent checker](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim6/claim6_independent_checker.json)
+also constructs `T=diag(-1,0)`, obtaining an exact zero eigenvalue, and its
+[control](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim6/claim6_negative_control.json)
+rejects a negative-eigenvalue mutation.
 The previously accepted page remains [reachable](#/claim-6).
 
 **Limit.** “No added cost” is checked structurally—no projection and the same

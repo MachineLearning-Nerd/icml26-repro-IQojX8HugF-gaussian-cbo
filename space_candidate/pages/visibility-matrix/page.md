@@ -16,5 +16,5 @@ control, limitations, and evidence verdict.
 
 Shared command: `uv run python repro/src/verify.py`. Shared environment:
 [Python pin, pyproject and uv.lock](https://huggingface.co/spaces/DineshAI/IQojX8HugF/tree/main/evidence/current/environment).
-Evidence-generating Git SHA:
-`c3dc10d3dc90397af7404da268bc64ca52f65910`.
+Evaluator-visible cumulative Git SHA:
+`08e70e492919bfd2a76691b6db656efcc03dafca`.

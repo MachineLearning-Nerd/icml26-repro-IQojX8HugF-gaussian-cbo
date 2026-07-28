@@ -23,7 +23,7 @@
   },
   "C6": {
     "passed": true,
-    "evidence": "Independent random symmetric-tangent PSD invariant check."
+    "evidence": "PSD identity, 120 random symmetric-tangent cases, and an explicit singular construction."
   },
   "summary": {
     "claims_checked": 6,

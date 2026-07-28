@@ -93,6 +93,29 @@ def main() -> None:
                 continue
     checks["no_secret_patterns"] = not secret_hits
 
+    allowlist_path = CANDIDATE / "release" / "upload-allowlist.txt"
+    manifest_path = CANDIDATE / "release" / "upload-manifest.sha256"
+    allowlist = allowlist_path.read_text(encoding="utf-8").splitlines()
+    manifest = {
+        line.split("  ", 1)[1]: line.split("  ", 1)[0]
+        for line in manifest_path.read_text(encoding="utf-8").splitlines()
+    }
+    checks["allowlist_sorted_unique"] = allowlist == sorted(set(allowlist))
+    checks["allowlist_paths_exist"] = all((CANDIDATE / item).is_file() for item in allowlist)
+    checks["manifest_covers_payload_except_itself"] = set(manifest) == (
+        set(allowlist) - {"release/upload-manifest.sha256"}
+    )
+    checks["manifest_hashes_match"] = all(
+        sha256(CANDIDATE / item) == expected for item, expected in manifest.items()
+    )
+    text_decode_ok = True
+    for item in allowlist:
+        try:
+            (CANDIDATE / item).read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            text_decode_ok = False
+    checks["allowlist_is_utf8_text_only"] = text_decode_ok
+
     result = {
         "verdict": "RELEASE_CANDIDATE_PASS" if all(checks.values()) else "RELEASE_CANDIDATE_FAIL",
         "checks": checks,

@@ -3,15 +3,15 @@
 Previous live judge: **7/12** at immutable Space revision
 `25fc9ebcb7055ac69fc2cad7a31a45c834678099`.
 
-The current cumulative suite ran from Git SHA
-`c3dc10d3dc90397af7404da268bc64ca52f65910` with the single command:
+The evaluator-visible cumulative suite ran from Git SHA
+`08e70e492919bfd2a76691b6db656efcc03dafca` with the single command:
 
 ```bash
 uv run python repro/src/verify.py
 ```
 
 It used CPython 3.12.11, the committed `uv.lock`, a one-thread limit, and local
-CPU. The complete run took 3.667 seconds. No GPU was used.
+CPU. The complete run took 6.165 seconds. No GPU was used.
 
 | Claim | Verdict | Central evidence | Honest scope |
 | --- | --- | --- | --- |

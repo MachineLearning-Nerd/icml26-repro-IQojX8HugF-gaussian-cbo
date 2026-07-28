@@ -23,10 +23,11 @@ are mirrored here. Download the underlying source-scale arrays from GitHub:
 [C](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/raw/main/outputs/authored_2d_C.raw.npz),
 [D](https://github.com/MachineLearning-Nerd/icml26-repro-IQojX8HugF-gaussian-cbo/raw/main/outputs/authored_2d_D.raw.npz).
 
-The independent checker rejects missing targets, incorrect shapes, non-finite
-values, absent baselines, or any target where CBO is not lower. Its explicit
-negative control removes target D and confirms that the required-target gate
-fails.
+The [independent checker](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim5/claim5_independent_checker.json)
+rejects missing targets, incorrect shapes, non-finite values, absent baselines,
+or any target where CBO is not lower. Its explicit
+[negative control](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim5/claim5_negative_control.json)
+removes target D and confirms that the required-target gate fails.
 
 The previously judge-accepted full executed output remains unchanged at
 [Historical accepted baseline — Claim 5](#/claim-5).

@@ -1,0 +1,5 @@
+{
+  "mutation": "add 1e-6 to the reported weighted-average error",
+  "mutated_error": 1.0000000003606973e-06,
+  "rejected": true
+}

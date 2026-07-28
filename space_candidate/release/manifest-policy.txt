@@ -1,0 +1,1 @@
+The SHA-256 manifest covers every allowlisted payload except upload-manifest.sha256 itself, whose self-hash is not representable. The allowlist and this policy file are both covered.

@@ -1,0 +1,5 @@
+{
+  "mutation": "replace observed minimum eigenvalue by -1e-6",
+  "mutated_minimum_eigenvalue": -1e-06,
+  "rejected": true
+}

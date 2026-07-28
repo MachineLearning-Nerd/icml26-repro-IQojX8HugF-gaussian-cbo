@@ -20,8 +20,10 @@ The fail-closed cumulative command is
 `uv run python repro/src/verify.py`; seed handling and assertions are visible in
 [verify_geometry.py](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim1/verify_geometry.py),
 with [raw JSON](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim1/independent_geometry.json).
-An independent checker re-reads the raw JSON. Its negative control adds `1e-6`
-to the weighted-average error and confirms that the `1e-10` gate rejects it.
+An [independent checker output](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim1/claim1_independent_checker.json)
+re-reads the raw JSON. Its [negative control](https://huggingface.co/spaces/DineshAI/IQojX8HugF/blob/main/evidence/current/claim1/claim1_negative_control.json)
+adds `1e-6` to the weighted-average error and confirms that the `1e-10` gate
+rejects it.
 
 **Limit.** This is a high-precision finite regression, not a replacement for
 the algebraic derivation. The previously judge-accepted page remains reachable
