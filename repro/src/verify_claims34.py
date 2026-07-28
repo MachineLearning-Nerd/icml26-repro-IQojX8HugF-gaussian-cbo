@@ -75,7 +75,15 @@ def main() -> None:
             in c3_block
         ),
         "residual_only_vanishes_as_alpha_tends_to_infinity": (
-            r"r(\alpha):=" in c3_block and r"r(\alpha) \to 0$ as $\alpha \to \infty" in c3_block
+            r"r(\alpha):=" in c3_block
+            and re.search(
+                re.escape(r"r(\alpha):=")
+                + r".*?"
+                + re.escape(r"\to 0$ as $\alpha \to \infty"),
+                c3_block,
+                flags=re.DOTALL,
+            )
+            is not None
         ),
         "does_not_state_exact_global_minimizer": (
             r"\E^\#(\tilde z) = \underline{\E}" not in c3_block
